@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CrackerServerWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Password Cracker" Height="450" Width="800">
+    <Grid Background="#FF404040">
+        <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="251,201,0,0" VerticalAlignment="Top" Width="75" Click="StartButtonClick"/>
+        <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="369,201,0,0" VerticalAlignment="Top" Width="75" Click="StopButtonClick"/>
+        <Button x:Name="CrackButton" Content="Crack" HorizontalAlignment="Left" Margin="306,273,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </Window>
