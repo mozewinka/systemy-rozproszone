@@ -1,6 +1,7 @@
 ﻿using CrackerServerLibrary;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -25,11 +26,14 @@ namespace CrackerServerWPF
     {
         private ServiceHost selfHost;
 
+        private ObservableCollection<string> Logs { get; } = new ObservableCollection<string>();
+
         public MainWindow()
         {
             InitializeComponent();
-            StopButton.IsEnabled = false;
-            CrackButton.IsEnabled = false;
+            stopButton.IsEnabled = false;
+            crackButton.IsEnabled = false;
+            listView.ItemsSource = Logs;
         }
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
@@ -48,14 +52,14 @@ namespace CrackerServerWPF
                 selfHost.Description.Behaviors.Add(smb);
 
                 selfHost.Open();
-                StartButton.IsEnabled = false;
-                StopButton.IsEnabled = true;
-                Console.WriteLine("service started"); // tymczasowo do konsoli
+                startButton.IsEnabled = false;
+                stopButton.IsEnabled = true;
+                Logs.Add("Service started");
 
             }
             catch (CommunicationException ce)
             {
-                Console.WriteLine("exception: {0}", ce.Message); // tymczasowo do konsoli
+                Logs.Add("Exception: " + ce.Message);
                 selfHost.Abort();
             }
         }
@@ -65,14 +69,31 @@ namespace CrackerServerWPF
             try
             {
                 selfHost.Close();
-                Console.WriteLine("service stopped"); // tymczasowo do konsoli
-                StartButton.IsEnabled = true;
-                StopButton.IsEnabled = false;
+                Logs.Add("Service stopped");
+                startButton.IsEnabled = true;
+                stopButton.IsEnabled = false;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("exception: {0}", ex.Message); // tymczasowo do konsoli
+                Logs.Add("Exception: " + ex.Message);
             }
+        }
+
+        private void BruteForceRadioChecked(object sender, RoutedEventArgs e)
+        {
+            crackButton.IsEnabled = true;
+        }
+
+        private void DictionaryRadioChecked(object sender, RoutedEventArgs e)
+        {
+            crackButton.IsEnabled = true;
+        }
+
+        private void CrackButtonClick(object sender, RoutedEventArgs e)
+        {
+            string method = (bool)bruteForceRadio.IsChecked ? "Brute Force" : "Dictionary";
+            Logs.Add("Started cracking with " + method + " method");
+            // ...
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
+using System.IO;
 using System.ServiceModel;
-using System.Text;
 
 namespace CrackerServerLibrary
 {
@@ -15,9 +13,24 @@ namespace CrackerServerLibrary
             throw new NotImplementedException();
         }
 
-        public void Send()
+        public DictionaryData SendDictionary()
         {
-            throw new NotImplementedException();
+            FileStream file = File.OpenRead("dictionary.txt"); // TODO: add file dialog
+            StreamReader reader = new StreamReader(file);
+            List<string> list = new List<string>();
+
+            while (!reader.EndOfStream)
+            {
+                list.Add(reader.ReadLine());
+            }
+
+            Callback.Print(); // test
+            return new DictionaryData()
+            {
+                List = list
+            };
         }
+
+        public ICrackerServiceCallback Callback => OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>();
     }
 }

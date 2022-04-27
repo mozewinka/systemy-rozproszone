@@ -1,18 +1,17 @@
 ﻿using CrackerClient.CrackerServiceReference;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrackerClient
 {
     public class CallbackHandler : ICrackerServiceCallback
     {
+        public List<string> DictionaryList { get; set; }
+
         public void Print()
         {
-            throw new NotImplementedException();
+            Console.Out.WriteLine("print");
         }
     }
 
@@ -23,6 +22,10 @@ namespace CrackerClient
             CallbackHandler callbackHandler = new CallbackHandler();
             InstanceContext instanceContext = new InstanceContext(callbackHandler);
             CrackerServiceClient client = new CrackerServiceClient(instanceContext);
+
+            DictionaryData dictionary = client.SendDictionary();
+            callbackHandler.DictionaryList = dictionary.List;
+            callbackHandler.DictionaryList.ForEach(Console.WriteLine); // test
 
             _ = Console.ReadLine();
             client.Close();

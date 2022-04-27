@@ -55,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Connected Services\CrackerServiceReference\CrackerClient.CrackerServiceReference.DictionaryData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\CrackerServiceReference\CrackerService.wsdl" />
     <None Include="Connected Services\CrackerServiceReference\item.xsd">
       <SubType>Designer</SubType>
@@ -76,6 +79,15 @@
     <None Include="Connected Services\CrackerServiceReference\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\CrackerServiceReference\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\CrackerServiceReference\item11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\CrackerServiceReference\item12.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\CrackerServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

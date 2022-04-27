@@ -9,7 +9,9 @@
     <GenerateInternalTypes>false</GenerateInternalTypes>
     <GenerateMessageContracts>false</GenerateMessageContracts>
     <NamespaceMappings />
-    <CollectionMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
     <GenerateSerializableTypes>true</GenerateSerializableTypes>
     <Serializer>Auto</Serializer>
     <UseSerializerForFaults>true</UseSerializerForFaults>
@@ -22,9 +24,12 @@
     <MetadataSource Address="http://localhost:8001/CrackerService/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="fe2d0581-0f2f-4b3a-a25e-6932a2146ba2" SourceId="1" SourceUrl="http://localhost:8001/CrackerService/?xsd=xsd3" />
+    <MetadataFile FileName="item11.xsd" MetadataType="Schema" ID="92ccf558-96c8-4892-b407-c32e5d099b3e" SourceId="1" SourceUrl="http://localhost:8001/CrackerService/?xsd=xsd2" />
+    <MetadataFile FileName="item12.xsd" MetadataType="Schema" ID="cb3df95c-9ffb-4122-a7ff-16bd65c7e4ca" SourceId="1" SourceUrl="http://localhost:8001/CrackerService/?xsd=xsd1" />
     <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="71a68887-7f14-4604-a9af-fbbfda93de38" SourceId="1" SourceUrl="http://localhost:8001/CrackerService/?xsd=xsd0" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="f22f03cf-96fc-4694-a50e-9c806f0810f2" SourceId="1" SourceUrl="http://localhost:8001/CrackerService/?disco" />
     <MetadataFile FileName="CrackerService.wsdl" MetadataType="Wsdl" ID="c120de31-21e8-45ce-bc28-7f2209ffb7d7" SourceId="1" SourceUrl="http://localhost:8001/CrackerService/?wsdl" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="f22f03cf-96fc-4694-a50e-9c806f0810f2" SourceId="1" SourceUrl="http://localhost:8001/CrackerService/?disco" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

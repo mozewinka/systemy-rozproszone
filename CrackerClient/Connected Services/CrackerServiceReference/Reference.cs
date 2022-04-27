@@ -9,17 +9,64 @@
 //------------------------------------------------------------------------------
 
 namespace CrackerClient.CrackerServiceReference {
+    using System.Runtime.Serialization;
+    using System;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="DictionaryData", Namespace="http://schemas.datacontract.org/2004/07/CrackerServerLibrary")]
+    [System.SerializableAttribute()]
+    public partial class DictionaryData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.List<string> ListField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.List<string> List {
+            get {
+                return this.ListField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ListField, value) != true)) {
+                    this.ListField = value;
+                    this.RaisePropertyChanged("List");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="CrackerServiceReference.ICrackerService", CallbackContract=typeof(CrackerClient.CrackerServiceReference.ICrackerServiceCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface ICrackerService {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/Send")]
-        void Send();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICrackerService/SendDictionary", ReplyAction="http://tempuri.org/ICrackerService/SendDictionaryResponse")]
+        CrackerClient.CrackerServiceReference.DictionaryData SendDictionary();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/Send")]
-        System.Threading.Tasks.Task SendAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICrackerService/SendDictionary", ReplyAction="http://tempuri.org/ICrackerService/SendDictionaryResponse")]
+        System.Threading.Tasks.Task<CrackerClient.CrackerServiceReference.DictionaryData> SendDictionaryAsync();
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/Receive")]
         void Receive();
@@ -63,12 +110,12 @@ namespace CrackerClient.CrackerServiceReference {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public void Send() {
-            base.Channel.Send();
+        public CrackerClient.CrackerServiceReference.DictionaryData SendDictionary() {
+            return base.Channel.SendDictionary();
         }
         
-        public System.Threading.Tasks.Task SendAsync() {
-            return base.Channel.SendAsync();
+        public System.Threading.Tasks.Task<CrackerClient.CrackerServiceReference.DictionaryData> SendDictionaryAsync() {
+            return base.Channel.SendDictionaryAsync();
         }
         
         public void Receive() {

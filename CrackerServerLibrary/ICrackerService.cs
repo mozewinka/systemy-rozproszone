@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
 
 namespace CrackerServerLibrary
 {
+    [DataContract]
+    public class DictionaryData
+    {
+        [DataMember]
+        public List<string> List { get; set; }
+    }
+
     [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(ICrackerServiceCallback))]
     public interface ICrackerService
     {
-        [OperationContract(IsOneWay = true)]
-        void Send();
+        [OperationContract]
+        DictionaryData SendDictionary();
 
         [OperationContract(IsOneWay = true)]
         void Receive();
