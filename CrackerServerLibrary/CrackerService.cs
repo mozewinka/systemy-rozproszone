@@ -8,6 +8,8 @@ namespace CrackerServerLibrary
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, AddressFilterMode = AddressFilterMode.Any)]
     public class CrackerService : ICrackerService
     {
+        public string FilePath { get; set; }
+
         public void Receive()
         {
             throw new NotImplementedException();
@@ -15,7 +17,7 @@ namespace CrackerServerLibrary
 
         public DictionaryData SendDictionary()
         {
-            FileStream file = File.OpenRead("dictionary.txt"); // TODO: add file dialog
+            FileStream file = File.OpenRead(FilePath);
             StreamReader reader = new StreamReader(file);
             List<string> list = new List<string>();
 

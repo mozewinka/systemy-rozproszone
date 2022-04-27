@@ -1,7 +1,9 @@
 ﻿using CrackerServerLibrary;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -25,6 +27,7 @@ namespace CrackerServerWPF
     public partial class MainWindow : Window
     {
         private ServiceHost selfHost;
+        private readonly CrackerService instance;
 
         private ObservableCollection<string> Logs { get; } = new ObservableCollection<string>();
 
@@ -34,12 +37,15 @@ namespace CrackerServerWPF
             stopButton.IsEnabled = false;
             crackButton.IsEnabled = false;
             listView.ItemsSource = Logs;
+            filePath.IsEnabled = false;
+            fileButton.IsEnabled = false;
+            instance = new CrackerService();
         }
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
         {
             Uri baseAddress = new Uri("http://localhost:8001/CrackerService/");
-            selfHost = new ServiceHost(typeof(CrackerService), baseAddress);
+            selfHost = new ServiceHost(instance, baseAddress);
 
             try
             {
@@ -82,11 +88,15 @@ namespace CrackerServerWPF
         private void BruteForceRadioChecked(object sender, RoutedEventArgs e)
         {
             crackButton.IsEnabled = true;
+            filePath.IsEnabled = false;
+            fileButton.IsEnabled = false;
         }
 
         private void DictionaryRadioChecked(object sender, RoutedEventArgs e)
         {
             crackButton.IsEnabled = true;
+            filePath.IsEnabled = true;
+            fileButton.IsEnabled = true;
         }
 
         private void CrackButtonClick(object sender, RoutedEventArgs e)
@@ -94,6 +104,16 @@ namespace CrackerServerWPF
             string method = (bool)bruteForceRadio.IsChecked ? "Brute Force" : "Dictionary";
             Logs.Add("Started cracking with " + method + " method");
             // ...
+        }
+
+        private void FileButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            if (fileDialog.ShowDialog() == true)
+            {
+                filePath.Text = fileDialog.FileName;
+                instance.FilePath = fileDialog.FileName;
+            }
         }
     }
 }

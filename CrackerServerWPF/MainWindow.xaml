@@ -20,5 +20,7 @@
         <Label x:Name="methodLabel" Content="Method: " HorizontalAlignment="Left" Margin="31,94,0,0" VerticalAlignment="Top"/>
         <RadioButton x:Name="bruteForceRadio" Content="Brute Force" HorizontalAlignment="Left" Margin="89,100,0,0" VerticalAlignment="Top" Checked="BruteForceRadioChecked"/>
         <RadioButton x:Name="dictionaryRadio" Content="Dictionary" HorizontalAlignment="Left" Margin="179,100,0,0" VerticalAlignment="Top" Checked="DictionaryRadioChecked"/>
+        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="261,97,0,0" VerticalAlignment="Top" Width="248"/>
+        <Button x:Name="fileButton" Content="Choose file" HorizontalAlignment="Left" Margin="522,100,0,0" VerticalAlignment="Top" Width="75" Click="FileButtonClick"/>
     </Grid>
 </Window>
