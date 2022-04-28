@@ -115,5 +115,10 @@ namespace CrackerServerWPF
                 instance.FilePath = fileDialog.FileName;
             }
         }
+
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
