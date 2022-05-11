@@ -9,9 +9,9 @@ namespace CrackerClient
     {
         public List<string> DictionaryList { get; set; }
 
-        public void Print()
+        public void Print(string md5Password)
         {
-            Console.Out.WriteLine("print");
+            Console.Out.WriteLine($"Received {md5Password} from the server.");
         }
     }
 
@@ -23,10 +23,13 @@ namespace CrackerClient
             InstanceContext instanceContext = new InstanceContext(callbackHandler);
             CrackerServiceClient client = new CrackerServiceClient(instanceContext);
 
+            Console.WriteLine("Getting dictionary...");
             DictionaryData dictionary = client.SendDictionary();
             callbackHandler.DictionaryList = dictionary.List;
-            callbackHandler.DictionaryList.ForEach(Console.WriteLine); // test
+            //callbackHandler.DictionaryList.ForEach(Console.WriteLine); // test
+            Console.WriteLine("Received dictionary with " + callbackHandler.DictionaryList.Count + " words.");
 
+            Console.WriteLine("\nPress enter to quit...\n");
             _ = Console.ReadLine();
             client.Close();
         }

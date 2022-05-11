@@ -10,9 +10,18 @@ namespace CrackerServerLibrary
     {
         public string FilePath { get; set; }
 
+        public ICrackerServiceCallback ClientTestCallback; // tymczasowo
+
         public void Receive()
         {
             throw new NotImplementedException();
+        }
+
+        public void StartCracking(string md5Password)
+        {
+            //Callback.Print(md5Password);
+            ClientTestCallback.Print(md5Password);
+            //...
         }
 
         public DictionaryData SendDictionary()
@@ -26,13 +35,14 @@ namespace CrackerServerLibrary
                 list.Add(reader.ReadLine());
             }
 
-            Callback.Print(); // test
+            ClientTestCallback = OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>(); // do innej metody?
+
             return new DictionaryData()
             {
                 List = list
             };
         }
 
-        public ICrackerServiceCallback Callback => OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>();
+        public ICrackerServiceCallback Callback => OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>(); // dodac klientow do listy callbackow zamiast w taki sposob
     }
 }

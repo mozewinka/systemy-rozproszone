@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Security.Cryptography;
 
 namespace CrackerServerWPF
 {
@@ -58,15 +59,23 @@ namespace CrackerServerWPF
                 selfHost.Description.Behaviors.Add(smb);
 
                 selfHost.Open();
+                statusLabel.Content = "STARTED";
+                statusLabel.Foreground = Brushes.Green;
                 startButton.IsEnabled = false;
                 stopButton.IsEnabled = true;
+                if ((bool)bruteForceRadio.IsChecked || (bool)dictionaryRadio.IsChecked)
+                {
+                    crackButton.IsEnabled = true;
+                }
                 Logs.Add("Service started");
 
             }
             catch (CommunicationException ce)
             {
-                Logs.Add("Exception: " + ce.Message);
                 selfHost.Abort();
+                statusLabel.Content = "STARTING FAILED";
+                statusLabel.Foreground = Brushes.Red;
+                Logs.Add("Exception: " + ce.Message);
             }
         }
 
@@ -75,9 +84,15 @@ namespace CrackerServerWPF
             try
             {
                 selfHost.Close();
-                Logs.Add("Service stopped");
+                statusLabel.Content = "STOPPED";
+                statusLabel.Foreground = Brushes.Red;
                 startButton.IsEnabled = true;
                 stopButton.IsEnabled = false;
+                if ((bool)bruteForceRadio.IsChecked || (bool)dictionaryRadio.IsChecked)
+                {
+                    crackButton.IsEnabled = false;
+                }
+                Logs.Add("Service stopped");
             }
             catch (Exception ex)
             {
@@ -87,22 +102,50 @@ namespace CrackerServerWPF
 
         private void BruteForceRadioChecked(object sender, RoutedEventArgs e)
         {
-            crackButton.IsEnabled = true;
+            if (!startButton.IsEnabled)
+            {
+                crackButton.IsEnabled = true;
+            }
             filePath.IsEnabled = false;
             fileButton.IsEnabled = false;
         }
 
         private void DictionaryRadioChecked(object sender, RoutedEventArgs e)
         {
-            crackButton.IsEnabled = true;
+            if (!startButton.IsEnabled)
+            {
+                crackButton.IsEnabled = true;
+            }
             filePath.IsEnabled = true;
             fileButton.IsEnabled = true;
+        }
+
+        private static string GetHash(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder stringBuilder = new System.Text.StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    _ = stringBuilder.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return stringBuilder.ToString();
+            }
         }
 
         private void CrackButtonClick(object sender, RoutedEventArgs e)
         {
             string method = (bool)bruteForceRadio.IsChecked ? "Brute Force" : "Dictionary";
+            string md5Password = GetHash(passwordTextBox.Text);
+            
+            Logs.Add("The MD5 hash of " + passwordTextBox.Text + " is " + md5Password);
             Logs.Add("Started cracking with " + method + " method");
+
+            instance.StartCracking(md5Password);
             // ...
         }
 

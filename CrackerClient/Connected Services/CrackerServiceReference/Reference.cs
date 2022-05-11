@@ -79,7 +79,7 @@ namespace CrackerClient.CrackerServiceReference {
     public interface ICrackerServiceCallback {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/Print")]
-        void Print();
+        void Print(string md5Password);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
