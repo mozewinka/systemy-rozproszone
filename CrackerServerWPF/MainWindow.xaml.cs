@@ -45,7 +45,7 @@ namespace CrackerServerWPF
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
         {
-            Uri baseAddress = new Uri("http://localhost:8001/CrackerService/");
+            Uri baseAddress = new Uri($"http://{ipTextBox.Text}:8001/CrackerService/");
             selfHost = new ServiceHost(instance, baseAddress);
 
             try
@@ -67,7 +67,7 @@ namespace CrackerServerWPF
                 {
                     crackButton.IsEnabled = true;
                 }
-                Logs.Add("Service started");
+                Logs.Add($"Service started at http://{ipTextBox.Text}:8001/CrackerService/");
 
             }
             catch (CommunicationException ce)
