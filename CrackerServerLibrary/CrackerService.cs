@@ -3,17 +3,41 @@ using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 
+
 namespace CrackerServerLibrary
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, AddressFilterMode = AddressFilterMode.Any)]
     public class CrackerService : ICrackerService
     {
+       
         public string FilePath { get; set; }
+
+        public List<ICrackerServiceCallback> Callbacks = new List<ICrackerServiceCallback>();
 
         public void Receive()
         {
             throw new NotImplementedException();
         }
+
+
+
+        public void StartCracking(string md5Password)
+        {
+            foreach (ICrackerServiceCallback callback in Callbacks)
+            {
+                //callback.PrintBrute(md5Password);
+
+               callback.Print(md5Password);
+                // tu?
+               
+            }
+            //...czy tu?
+
+
+            //czy gdzie xD
+        }
+
+
 
         public DictionaryData SendDictionary()
         {
@@ -26,13 +50,14 @@ namespace CrackerServerLibrary
                 list.Add(reader.ReadLine());
             }
 
-            Callback.Print(); // test
+            Callbacks.Add(OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>()); // do innej metody?
+
             return new DictionaryData()
             {
                 List = list
             };
         }
 
-        public ICrackerServiceCallback Callback => OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>();
+       
     }
 }

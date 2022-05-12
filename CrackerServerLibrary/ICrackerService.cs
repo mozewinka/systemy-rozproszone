@@ -20,11 +20,26 @@ namespace CrackerServerLibrary
         [OperationContract(IsOneWay = true)]
         void Receive();
 
+
+
     }
     public interface ICrackerServiceCallback
     {
         [OperationContract(IsOneWay = true)]
-        void Print();
+        void Print(string md5Password);
+
+        [OperationContract(IsOneWay = true)]
+        void PrintBrute(string md5Password);
+
+
+        [OperationContract]
+        string BruteCrack(string Sa, string Sb);
+
+        [OperationContract]
+        string AddHex(string a, string b);
+
+        [OperationContract]
+        string GetHash(string input);
 
     }
 }

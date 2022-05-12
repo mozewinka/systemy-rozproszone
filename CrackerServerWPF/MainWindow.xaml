@@ -5,22 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CrackerServerWPF"
         mc:Ignorable="d"
-        Title="Password Cracker" Height="450" Width="800">
-    <Grid Background="#A0A0A6">
-        <Button x:Name="startButton" Content="Start" HorizontalAlignment="Left" Margin="251,201,0,0" VerticalAlignment="Top" Width="75" Click="StartButtonClick"/>
-        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="369,201,0,0" VerticalAlignment="Top" Width="75" Click="StopButtonClick"/>
-        <Button x:Name="crackButton" Content="Crack" HorizontalAlignment="Left" Margin="306,273,0,0" VerticalAlignment="Top" Width="75" Click="CrackButtonClick"/>
-        <ListView x:Name="listView" HorizontalAlignment="Left" Height="276" Margin="522,133,0,0" VerticalAlignment="Top" Width="260" SelectionChanged="listView_SelectionChanged" >
+        Title="Password Cracker" Height="586" Width="800">
+    <Grid Background="#FF6C6C6C">
+        <Button x:Name="startButton" Content="Start" HorizontalAlignment="Left" Margin="101,300,0,0" VerticalAlignment="Top" Width="75" Click="StartButtonClick"/>
+        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="186,300,0,0" VerticalAlignment="Top" Width="75" Click="StopButtonClick"/>
+        <Button x:Name="crackButton" Content="Crack" HorizontalAlignment="Left" Margin="144,347,0,0" VerticalAlignment="Top" Width="75" Click="CrackButtonClick" RenderTransformOrigin="0.867,-8.5"/>
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="275" Margin="331,269,0,0" VerticalAlignment="Top" Width="450">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="258" Header="Logs"/>
+                    <GridViewColumn Width="440" Header="Logs"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label x:Name="methodLabel" Content="Method: " HorizontalAlignment="Left" Margin="31,94,0,0" VerticalAlignment="Top"/>
-        <RadioButton x:Name="bruteForceRadio" Content="Brute Force" HorizontalAlignment="Left" Margin="89,100,0,0" VerticalAlignment="Top" Checked="BruteForceRadioChecked"/>
-        <RadioButton x:Name="dictionaryRadio" Content="Dictionary" HorizontalAlignment="Left" Margin="179,100,0,0" VerticalAlignment="Top" Checked="DictionaryRadioChecked"/>
-        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="261,97,0,0" VerticalAlignment="Top" Width="248"/>
-        <Button x:Name="fileButton" Content="Choose file" HorizontalAlignment="Left" Margin="522,100,0,0" VerticalAlignment="Top" Width="75" Click="FileButtonClick"/>
+        <Label x:Name="methodLabel" Content="Method: " HorizontalAlignment="Left" Margin="101,222,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="bruteForceRadio" Content="Brute Force" HorizontalAlignment="Left" Margin="159,228,0,0" VerticalAlignment="Top" Checked="BruteForceRadioChecked"/>
+        <RadioButton x:Name="dictionaryRadio" Content="Dictionary" HorizontalAlignment="Left" Margin="249,228,0,0" VerticalAlignment="Top" Checked="DictionaryRadioChecked"/>
+        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="331,225,0,0" VerticalAlignment="Top" Width="248"/>
+        <Button x:Name="fileButton" Content="Choose file" HorizontalAlignment="Left" Margin="592,228,0,0" VerticalAlignment="Top" Width="75" Click="FileButtonClick"/>
+        <Label x:Name="passwordLabel" Content="Password:" HorizontalAlignment="Left" Margin="101,196,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="passwordTextBox" HorizontalAlignment="Left" Height="23" Margin="164,199,0,0" VerticalAlignment="Top" Width="160"/>
+        <Label x:Name="preStatusLabel" Content="Server status:" HorizontalAlignment="Left" Margin="101,269,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="statusLabel" Content="STOPPED" HorizontalAlignment="Left" Margin="186,269,0,0" VerticalAlignment="Top" Foreground="Red"/>
+        <Label x:Name="ipLabel" Content="Host IP:" HorizontalAlignment="Left" Margin="101,170,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="ipTextBox" HorizontalAlignment="Left" Height="23" Margin="164,171,0,0" Text="localhost" VerticalAlignment="Top" Width="158"/>
     </Grid>
 </Window>
