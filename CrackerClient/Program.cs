@@ -31,7 +31,7 @@ namespace CrackerClient
                                          // Console.WriteLine("Sa: " + Sa + " SHa: " + SHa + " Sb:  " + Sb + " SHb: " + SHb);
                 if (SHa.Equals(SHb)) //porównanie hashy
                 {
-                    Console.WriteLine(i+ "-ta iteracja bedacaw wynikiem, shashowana: " + SHa);
+                    Console.WriteLine(i+ "-ta iteracja bedaca wynikiem, shashowana: " + SHa);
                     wynik = SHa;
                     return wynik; //zgadza się
                 }             // else if (i==100000-1)//w ostatniej iteracji
