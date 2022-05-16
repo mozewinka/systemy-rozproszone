@@ -50,7 +50,13 @@ namespace CrackerServerWPF
 
             try
             {
-                _ = selfHost.AddServiceEndpoint(typeof(ICrackerService), new WSDualHttpBinding(), "CrackerService");
+                WSDualHttpBinding binding = new WSDualHttpBinding
+                {
+                    Name = "DuplexBinding",
+                    Security = { Mode = WSDualHttpSecurityMode.None },
+                    MessageEncoding = WSMessageEncoding.Mtom
+                };
+                _ = selfHost.AddServiceEndpoint(typeof(ICrackerService), binding, "CrackerService");
                 ServiceMetadataBehavior smb = new ServiceMetadataBehavior
                 {
                     HttpGetEnabled = true
