@@ -1,9 +1,11 @@
 ﻿using CrackerClient.CrackerServiceReference;
 using System;
 using System.Collections.Generic;
+using System.ServiceModel;
 
 namespace CrackerClient
 {
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class CallbackHandler : ICrackerServiceCallback
     {
         public List<string> DictionaryList { get; set; }
@@ -46,14 +48,14 @@ namespace CrackerClient
 
         public void DictionaryCrack(int startPosition, int endPosition, string md5Password)
         {
-            //if (DictionaryList.Count == 0) // add check if local dict is same as server one
-            //{
-            //    Console.WriteLine("Getting dictionary...");
-            //    DictionaryData dictionary = Client.SendDictionary(); // nie dziala
-            //    DictionaryList = dictionary.List;
-            //    //callbackHandler.DictionaryList.ForEach(Console.WriteLine); // test
-            //    Console.WriteLine("Received dictionary with " + DictionaryList.Count + " words.");
-            //}
+            if (DictionaryList.Count == 0) // add check if local dict is same as server one
+            {
+                Console.WriteLine("Getting dictionary...");
+                DictionaryData dictionary = Client.SendDictionary();
+                DictionaryList = dictionary.List;
+                //callbackHandler.DictionaryList.ForEach(Console.WriteLine); // test
+                Console.WriteLine("Received dictionary with " + DictionaryList.Count + " words.");
+            }
 
             Console.WriteLine("Started dictionary cracking " + md5Password + " with range (" + startPosition + ", " + endPosition + ")");
             int currentPosition = startPosition;
