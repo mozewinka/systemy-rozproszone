@@ -38,5 +38,29 @@ namespace CrackerClient
 
             Client.AnnounceResult(result);
         }
+
+        public void DictionaryCrack(int startPosition, int endPosition, string md5Password)
+        {
+            Console.WriteLine("Started dictionary cracking " + md5Password + " with range (" + startPosition + ", " + endPosition + ")");
+            int currentPosition = startPosition;
+            string result = "NotFound";
+
+            while (currentPosition != endPosition)
+            {
+                string currentHash = CrackTools.GetHash(DictionaryList[currentPosition]);
+
+                if (currentHash.Equals(md5Password))
+                {
+                    Console.WriteLine("Cracked password: " + DictionaryList[currentPosition]);
+                    result = DictionaryList[currentPosition];
+                    break;
+                }
+                else
+                {
+                    currentPosition += 1;
+                }
+            }
+            Client.AnnounceResult(result);
+        }
     }
 }

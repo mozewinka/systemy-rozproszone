@@ -18,7 +18,7 @@ namespace CrackerServerLibrary
             ClientMessages.Add(message); // temp
         }
 
-        public void StartCracking(string md5Password)
+        public void StartCrackingBrute(string md5Password)
         {
             foreach (ICrackerServiceCallback callback in Callbacks)
             {
@@ -26,6 +26,15 @@ namespace CrackerServerLibrary
                 callback.BruteCrack("0", "1000000", md5Password); // temp range
             }
             //...
+        }
+
+        public void StartCrackingDictionary(string md5Password)
+        {
+            foreach (ICrackerServiceCallback callback in Callbacks)
+            {
+                callback.Print(md5Password);
+                callback.DictionaryCrack(0, 30000, md5Password); // temp range
+            }
         }
 
         public DictionaryData SendDictionary()

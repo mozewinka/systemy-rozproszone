@@ -36,4 +36,13 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="DictionaryCrack">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="startPosition" type="xs:int" />
+        <xs:element minOccurs="0" name="endPosition" type="xs:int" />
+        <xs:element minOccurs="0" name="md5Password" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

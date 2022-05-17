@@ -140,8 +140,10 @@ namespace CrackerServerWPF
             Logs.Add("The MD5 hash of " + passwordTextBox.Text + " is " + md5Password);
             Logs.Add("Started cracking with " + method + " method");
 
-            instance.StartCracking(md5Password);
-            // ...
+            if (method == "Brute Force")
+                instance.StartCrackingBrute(md5Password);
+            else
+                instance.StartCrackingDictionary(md5Password);
         }
 
         private void FileButtonClick(object sender, RoutedEventArgs e)
