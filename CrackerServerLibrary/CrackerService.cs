@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Meziantou.Framework.WPF.Collections;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -11,7 +12,7 @@ namespace CrackerServerLibrary
     {
         public string FilePath { get; set; }
 
-        public ObservableCollection<ICrackerServiceCallback> Callbacks;
+        public ConcurrentObservableCollection<ICrackerServiceCallback> Callbacks;
         public ObservableCollection<string> ClientMessages;
 
         public void AnnounceResult(string message)
@@ -71,7 +72,7 @@ namespace CrackerServerLibrary
         public void OnClientDisconnected(object sender, EventArgs args)
         {
             ICrackerServiceCallback callback = sender as ICrackerServiceCallback;
-            // _ = Callbacks.Remove(callback); // nie dziala - naprawic
+            _ = Callbacks.Remove(callback);
         }
     }
 }

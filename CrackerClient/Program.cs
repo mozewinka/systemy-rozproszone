@@ -14,6 +14,7 @@ namespace CrackerClient
             CrackerServiceClient client = new CrackerServiceClient(instanceContext);
             callbackHandler.Client = client;
 
+            Console.WriteLine("Connecting...");
             client.AddClient();
 
             Console.WriteLine("Getting dictionary...");

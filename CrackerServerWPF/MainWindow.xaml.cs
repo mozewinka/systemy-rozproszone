@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Security.Cryptography;
 using System.Collections.Specialized;
+using Meziantou.Framework.WPF.Collections;
 
 namespace CrackerServerWPF
 {
@@ -22,7 +23,7 @@ namespace CrackerServerWPF
 
         private ObservableCollection<string> Logs { get; }
         private ObservableCollection<string> ClientMessages { get; }
-        private ObservableCollection<ICrackerServiceCallback> Callbacks { get; }
+        private ConcurrentObservableCollection<ICrackerServiceCallback> Callbacks { get; }
 
         public MainWindow()
         {
@@ -40,8 +41,8 @@ namespace CrackerServerWPF
             ClientMessages.CollectionChanged += OnMessagesChanged;
             instance.ClientMessages = ClientMessages;
 
-            Callbacks = new ObservableCollection<ICrackerServiceCallback>();
-            Callbacks.CollectionChanged += OnCallbacksChanged;
+            Callbacks = new ConcurrentObservableCollection<ICrackerServiceCallback>();
+            Callbacks.AsObservable.CollectionChanged += OnCallbacksChanged;
             instance.Callbacks = Callbacks;
         }
 
