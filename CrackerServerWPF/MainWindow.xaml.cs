@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Security.Cryptography;
+using System.Collections.Specialized;
 
 namespace CrackerServerWPF
 {
@@ -19,17 +20,46 @@ namespace CrackerServerWPF
         private ServiceHost selfHost;
         private readonly CrackerService instance;
 
-        private ObservableCollection<string> Logs { get; } = new ObservableCollection<string>();
+        private ObservableCollection<string> Logs { get; }
+        private ObservableCollection<string> ClientMessages { get; }
+        private ObservableCollection<ICrackerServiceCallback> Callbacks { get; }
 
         public MainWindow()
         {
             InitializeComponent();
             stopButton.IsEnabled = false;
             crackButton.IsEnabled = false;
-            listView.ItemsSource = Logs;
             filePath.IsEnabled = false;
             fileButton.IsEnabled = false;
             instance = new CrackerService();
+
+            Logs = new ObservableCollection<string>();
+            listView.ItemsSource = Logs;
+
+            ClientMessages = new ObservableCollection<string>();
+            ClientMessages.CollectionChanged += OnMessagesChanged;
+            instance.ClientMessages = ClientMessages;
+
+            Callbacks = new ObservableCollection<ICrackerServiceCallback>();
+            Callbacks.CollectionChanged += OnCallbacksChanged;
+            instance.Callbacks = Callbacks;
+        }
+
+        private void OnMessagesChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            foreach (object element in args.NewItems)
+            {
+                Logs.Add(element.ToString());
+            }
+        }
+
+        private void OnCallbacksChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            clientsCountLabel.Text = Callbacks.Count.ToString();
+            if (Callbacks.Count < 1)
+            {
+                crackButton.IsEnabled = false;
+            }
         }
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
@@ -78,6 +108,7 @@ namespace CrackerServerWPF
         {
             try
             {
+                Callbacks.Clear();
                 selfHost.Close();
                 statusLabel.Content = "STOPPED";
                 statusLabel.Foreground = Brushes.Red;
@@ -136,14 +167,20 @@ namespace CrackerServerWPF
         {
             string method = (bool)bruteForceRadio.IsChecked ? "Brute Force" : "Dictionary";
             string md5Password = GetHash(passwordTextBox.Text);
-            
+            int packageSize = int.Parse(packageSizeTextBox.Text);
+
             Logs.Add("The MD5 hash of " + passwordTextBox.Text + " is " + md5Password);
             Logs.Add("Started cracking with " + method + " method");
+            Logs.Add("Package size is " + packageSize);
 
             if (method == "Brute Force")
-                instance.StartCrackingBrute(md5Password);
+            {
+                instance.StartCrackingBrute(md5Password, packageSize);
+            }
             else
-                instance.StartCrackingDictionary(md5Password);
+            {
+                instance.StartCrackingDictionary(md5Password, packageSize);
+            }
         }
 
         private void FileButtonClick(object sender, RoutedEventArgs e)

@@ -73,6 +73,12 @@ namespace CrackerClient.CrackerServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AnnounceResult")]
         System.Threading.Tasks.Task AnnounceResultAsync(string message);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AddClient")]
+        void AddClient();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AddClient")]
+        System.Threading.Tasks.Task AddClientAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -130,6 +136,14 @@ namespace CrackerClient.CrackerServiceReference {
         
         public System.Threading.Tasks.Task AnnounceResultAsync(string message) {
             return base.Channel.AnnounceResultAsync(message);
+        }
+        
+        public void AddClient() {
+            base.Channel.AddClient();
+        }
+        
+        public System.Threading.Tasks.Task AddClientAsync() {
+            return base.Channel.AddClientAsync();
         }
     }
 }

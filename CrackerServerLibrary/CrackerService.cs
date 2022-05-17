@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.ServiceModel;
 
@@ -10,50 +11,65 @@ namespace CrackerServerLibrary
     {
         public string FilePath { get; set; }
 
-        public List<ICrackerServiceCallback> Callbacks = new List<ICrackerServiceCallback>();
-        public List<string> ClientMessages = new List<string>();
+        public ObservableCollection<ICrackerServiceCallback> Callbacks;
+        public ObservableCollection<string> ClientMessages;
 
         public void AnnounceResult(string message)
         {
-            ClientMessages.Add(message); // temp
+            ClientMessages.Add(message);
         }
 
-        public void StartCrackingBrute(string md5Password)
+        public void StartCrackingBrute(string md5Password, int packageSize)
         {
+            int position = 0;
             foreach (ICrackerServiceCallback callback in Callbacks)
             {
                 callback.Print(md5Password);
-                callback.BruteCrack("0", "1000000", md5Password); // temp range
+                callback.BruteCrack(position.ToString(), (position + packageSize).ToString(), md5Password);
             }
-            //...
         }
 
-        public void StartCrackingDictionary(string md5Password)
+        public void StartCrackingDictionary(string md5Password, int packageSize)
         {
+            int position = 0;
             foreach (ICrackerServiceCallback callback in Callbacks)
             {
                 callback.Print(md5Password);
-                callback.DictionaryCrack(0, 30000, md5Password); // temp range
+                callback.DictionaryCrack(position, position + packageSize, md5Password);
+                position += packageSize;
             }
         }
 
         public DictionaryData SendDictionary()
         {
-            FileStream file = File.OpenRead(FilePath);
-            StreamReader reader = new StreamReader(file);
             List<string> list = new List<string>();
 
-            while (!reader.EndOfStream)
+            if (FilePath != null)
             {
-                list.Add(reader.ReadLine());
-            }
+                FileStream file = File.OpenRead(FilePath);
+                StreamReader reader = new StreamReader(file);
 
-            Callbacks.Add(OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>()); // do innej metody?
+                while (!reader.EndOfStream)
+                {
+                    list.Add(reader.ReadLine());
+                }
+            }
 
             return new DictionaryData()
             {
                 List = list
             };
+        }
+        public void AddClient()
+        {
+            Callbacks.Add(OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>());
+            OperationContext.Current.Channel.Closed += new EventHandler(OnClientDisconnected);
+        }
+
+        public void OnClientDisconnected(object sender, EventArgs args)
+        {
+            ICrackerServiceCallback callback = sender as ICrackerServiceCallback;
+            // _ = Callbacks.Remove(callback); // nie dziala - naprawic
         }
     }
 }

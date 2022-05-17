@@ -14,15 +14,25 @@ namespace CrackerClient
             CrackerServiceClient client = new CrackerServiceClient(instanceContext);
             callbackHandler.Client = client;
 
+            client.AddClient();
+
             Console.WriteLine("Getting dictionary...");
             DictionaryData dictionary = client.SendDictionary();
             callbackHandler.DictionaryList = dictionary.List;
             //callbackHandler.DictionaryList.ForEach(Console.WriteLine); // test
             Console.WriteLine("Received dictionary with " + callbackHandler.DictionaryList.Count + " words.");
 
-            Console.WriteLine("\nPress enter to quit...\n");
+            Console.WriteLine("Client ready");
+            Console.WriteLine("Press enter to quit...");
             _ = Console.ReadLine();
-            client.Close();
+            try
+            {
+                client.Close();
+            }
+            catch (TimeoutException ex)
+            {
+                Console.WriteLine("Host did not respond to Close() method. (" + ex + ")");
+            }
         }
     }
 }

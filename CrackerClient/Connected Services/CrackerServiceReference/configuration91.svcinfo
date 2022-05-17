@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="MpTyeNv3TSQQFw9edgO8diq9/PEWKbDRsaUMLUK4uw8=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="Ieppdq49zoQQFIkExG+rI+g4Q56f/Ts4yTxMcrJiIKs=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="wsDualHttpBinding" name="DuplexBinding_ICrackerService">
       <properties>

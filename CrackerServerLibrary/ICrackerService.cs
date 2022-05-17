@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
@@ -19,6 +20,9 @@ namespace CrackerServerLibrary
 
         [OperationContract(IsOneWay = true)]
         void AnnounceResult(string message);
+
+        [OperationContract(IsOneWay = true)]
+        void AddClient();
     }
     public interface ICrackerServiceCallback
     {

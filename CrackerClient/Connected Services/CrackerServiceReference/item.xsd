@@ -20,6 +20,11 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="AddClient">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="Print">
     <xs:complexType>
       <xs:sequence>

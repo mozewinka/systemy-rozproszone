@@ -11,14 +11,14 @@ namespace CrackerClient
 
         public void Print(string md5Password)
         {
-            Console.Out.WriteLine($"Received {md5Password} from the server.");
+            Console.Out.WriteLine($"\nReceived {md5Password} from the server.");
         }
 
         public void BruteCrack(string startPosition, string endPosition, string md5Password)
         {
-            Console.WriteLine("Started cracking " + md5Password + " with range (" + startPosition + ", " + endPosition + ")");
+            Console.WriteLine("Started brute force cracking " + md5Password + " with range (" + startPosition + ", " + endPosition + ")");
             string currentPosition = startPosition;
-            string result = "Password not found";
+            string result = "Password not found in given range";
 
             while (currentPosition != endPosition)
             {
@@ -26,8 +26,7 @@ namespace CrackerClient
 
                 if (currentHash.Equals(md5Password))
                 {
-                    Console.WriteLine("Cracked password: " + currentPosition);
-                    result = currentPosition;
+                    result = "Cracked password: " + currentPosition;
                     break;
                 }
                 else
@@ -36,14 +35,24 @@ namespace CrackerClient
                 }
             }
 
+            Console.WriteLine(result);
             Client.AnnounceResult(result);
         }
 
         public void DictionaryCrack(int startPosition, int endPosition, string md5Password)
         {
+            //if (true) // add check if local dict is same as server one
+            //{
+            //    Console.WriteLine("Getting dictionary...");
+            //    DictionaryData dictionary = Client.SendDictionary();
+            //    DictionaryList = dictionary.List;
+            //    //callbackHandler.DictionaryList.ForEach(Console.WriteLine); // test
+            //    Console.WriteLine("Received dictionary with " + DictionaryList.Count + " words.");
+            //}
+
             Console.WriteLine("Started dictionary cracking " + md5Password + " with range (" + startPosition + ", " + endPosition + ")");
             int currentPosition = startPosition;
-            string result = "NotFound";
+            string result = "Password not found in given range";
 
             while (currentPosition != endPosition)
             {
@@ -51,8 +60,7 @@ namespace CrackerClient
 
                 if (currentHash.Equals(md5Password))
                 {
-                    Console.WriteLine("Cracked password: " + DictionaryList[currentPosition]);
-                    result = DictionaryList[currentPosition];
+                    result = "Cracked password: " + DictionaryList[currentPosition];
                     break;
                 }
                 else
@@ -60,6 +68,8 @@ namespace CrackerClient
                     currentPosition += 1;
                 }
             }
+
+            Console.WriteLine(result);
             Client.AnnounceResult(result);
         }
     }
