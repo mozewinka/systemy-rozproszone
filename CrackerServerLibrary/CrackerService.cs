@@ -26,6 +26,7 @@ namespace CrackerServerLibrary
             {
                 callback.Print(md5Password);
                 callback.BruteCrack(position.ToString(), (position + packageSize).ToString(), md5Password);
+                position += packageSize;
             }
         }
 
@@ -60,6 +61,7 @@ namespace CrackerServerLibrary
                 List = list
             };
         }
+
         public void AddClient()
         {
             Callbacks.Add(OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>());

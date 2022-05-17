@@ -9,6 +9,11 @@ namespace CrackerClient
         public List<string> DictionaryList { get; set; }
         public CrackerServiceClient Client { get; set; }
 
+        public CallbackHandler()
+        {
+            DictionaryList = new List<string>();
+        }
+
         public void Print(string md5Password)
         {
             Console.Out.WriteLine($"\nReceived {md5Password} from the server.");
@@ -41,10 +46,10 @@ namespace CrackerClient
 
         public void DictionaryCrack(int startPosition, int endPosition, string md5Password)
         {
-            //if (true) // add check if local dict is same as server one
+            //if (DictionaryList.Count == 0) // add check if local dict is same as server one
             //{
             //    Console.WriteLine("Getting dictionary...");
-            //    DictionaryData dictionary = Client.SendDictionary();
+            //    DictionaryData dictionary = Client.SendDictionary(); // nie dziala
             //    DictionaryList = dictionary.List;
             //    //callbackHandler.DictionaryList.ForEach(Console.WriteLine); // test
             //    Console.WriteLine("Received dictionary with " + DictionaryList.Count + " words.");
