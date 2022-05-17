@@ -1,27 +1,18 @@
 ﻿using CrackerClient.CrackerServiceReference;
 using System;
-using System.Collections.Generic;
 using System.ServiceModel;
 
 namespace CrackerClient
 {
-    public class CallbackHandler : ICrackerServiceCallback
-    {
-        public List<string> DictionaryList { get; set; }
-
-        public void Print(string md5Password)
-        {
-            Console.Out.WriteLine($"Received {md5Password} from the server.");
-        }
-    }
-
     internal class Program
     {
+
         private static void Main()
         {
             CallbackHandler callbackHandler = new CallbackHandler();
             InstanceContext instanceContext = new InstanceContext(callbackHandler);
             CrackerServiceClient client = new CrackerServiceClient(instanceContext);
+            callbackHandler.Client = client;
 
             Console.WriteLine("Getting dictionary...");
             DictionaryData dictionary = client.SendDictionary();

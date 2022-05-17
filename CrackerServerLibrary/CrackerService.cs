@@ -11,10 +11,11 @@ namespace CrackerServerLibrary
         public string FilePath { get; set; }
 
         public List<ICrackerServiceCallback> Callbacks = new List<ICrackerServiceCallback>();
+        public List<string> ClientMessages = new List<string>();
 
-        public void Receive()
+        public void AnnounceResult(string message)
         {
-            throw new NotImplementedException();
+            ClientMessages.Add(message); // temp
         }
 
         public void StartCracking(string md5Password)
@@ -22,6 +23,7 @@ namespace CrackerServerLibrary
             foreach (ICrackerServiceCallback callback in Callbacks)
             {
                 callback.Print(md5Password);
+                callback.BruteCrack("0", "1000000", md5Password); // temp range
             }
             //...
         }

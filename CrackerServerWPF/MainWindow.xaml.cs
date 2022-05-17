@@ -1,23 +1,12 @@
 ﻿using CrackerServerLibrary;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Security.Cryptography;
 
 namespace CrackerServerWPF
@@ -133,7 +122,7 @@ namespace CrackerServerWPF
                 byte[] inputBytes = Encoding.ASCII.GetBytes(input);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                StringBuilder stringBuilder = new System.Text.StringBuilder();
+                StringBuilder stringBuilder = new StringBuilder();
                 for (int i = 0; i < hashBytes.Length; i++)
                 {
                     _ = stringBuilder.Append(hashBytes[i].ToString("x2"));

@@ -18,11 +18,14 @@ namespace CrackerServerLibrary
         DictionaryData SendDictionary();
 
         [OperationContract(IsOneWay = true)]
-        void Receive();
+        void AnnounceResult(string message);
     }
     public interface ICrackerServiceCallback
     {
         [OperationContract(IsOneWay = true)]
         void Print(string md5Password);
+
+        [OperationContract(IsOneWay = true)]
+        void BruteCrack(string startPosition, string endPosition, string md5Password);
     }
 }

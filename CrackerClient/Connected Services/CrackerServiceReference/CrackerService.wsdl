@@ -28,22 +28,28 @@
   <wsdl:message name="ICrackerService_SendDictionary_OutputMessage">
     <wsdl:part name="parameters" element="tns:SendDictionaryResponse" />
   </wsdl:message>
-  <wsdl:message name="ICrackerService_Receive_InputMessage">
-    <wsdl:part name="parameters" element="tns:Receive" />
+  <wsdl:message name="ICrackerService_AnnounceResult_InputMessage">
+    <wsdl:part name="parameters" element="tns:AnnounceResult" />
   </wsdl:message>
   <wsdl:message name="ICrackerService_Print_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:Print" />
+  </wsdl:message>
+  <wsdl:message name="ICrackerService_BruteCrack_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:BruteCrack" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="ICrackerService">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendDictionary">
       <wsdl:input wsaw:Action="http://tempuri.org/ICrackerService/SendDictionary" message="tns:ICrackerService_SendDictionary_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ICrackerService/SendDictionaryResponse" message="tns:ICrackerService_SendDictionary_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Receive">
-      <wsdl:input wsaw:Action="http://tempuri.org/ICrackerService/Receive" message="tns:ICrackerService_Receive_InputMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AnnounceResult">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICrackerService/AnnounceResult" message="tns:ICrackerService_AnnounceResult_InputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Print">
       <wsdl:output wsaw:Action="http://tempuri.org/ICrackerService/Print" message="tns:ICrackerService_Print_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="BruteCrack">
+      <wsdl:output wsaw:Action="http://tempuri.org/ICrackerService/BruteCrack" message="tns:ICrackerService_BruteCrack_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="DuplexBinding_ICrackerService" type="tns:ICrackerService">
@@ -58,14 +64,20 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Receive">
-      <soap12:operation soapAction="http://tempuri.org/ICrackerService/Receive" style="document" />
+    <wsdl:operation name="AnnounceResult">
+      <soap12:operation soapAction="http://tempuri.org/ICrackerService/AnnounceResult" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="Print">
       <soap12:operation soapAction="http://tempuri.org/ICrackerService/Print" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BruteCrack">
+      <soap12:operation soapAction="http://tempuri.org/ICrackerService/BruteCrack" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
