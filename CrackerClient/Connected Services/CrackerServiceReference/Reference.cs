@@ -91,7 +91,7 @@ namespace CrackerClient.CrackerServiceReference {
         void BruteCrack(string startPosition, string endPosition, string md5Password);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/DictionaryCrack")]
-        void DictionaryCrack(int startPosition, int endPosition, string md5Password);
+        void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix, string suffix);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

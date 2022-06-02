@@ -33,6 +33,6 @@ namespace CrackerServerLibrary
         void BruteCrack(string startPosition, string endPosition, string md5Password);
 
         [OperationContract(IsOneWay = true)]
-        void DictionaryCrack(int startPosition, int endPosition, string md5Password);
+        void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix, String suffix);
     }
 }

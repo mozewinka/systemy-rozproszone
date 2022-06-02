@@ -32,6 +32,10 @@ namespace CrackerServerWPF
             crackButton.IsEnabled = false;
             filePath.IsEnabled = false;
             fileButton.IsEnabled = false;
+            checkUpperCase.Visibility = Visibility.Hidden;
+            checkSuffix.Visibility = Visibility.Hidden;
+            sufix.Visibility = Visibility.Hidden;
+            sufix.IsEnabled = false;
             instance = new CrackerService();
 
             Logs = new ObservableCollection<string>();
@@ -135,8 +139,21 @@ namespace CrackerServerWPF
             }
             filePath.IsEnabled = false;
             fileButton.IsEnabled = false;
+            checkUpperCase.Visibility = Visibility.Hidden;
+            checkSuffix.Visibility = Visibility.Hidden;
+            sufix.Visibility = Visibility.Hidden;
         }
 
+        private void SuffixRadioChecked(object sender, RoutedEventArgs e)
+        {
+            sufix.IsEnabled = true;
+        }
+
+        private void SuffixRadioUnchecked(object sender, RoutedEventArgs e)
+        {
+            sufix.IsEnabled = false;
+        }
+        
         private void DictionaryRadioChecked(object sender, RoutedEventArgs e)
         {
             if (!startButton.IsEnabled)
@@ -145,6 +162,9 @@ namespace CrackerServerWPF
             }
             filePath.IsEnabled = true;
             fileButton.IsEnabled = true;
+            checkUpperCase.Visibility = Visibility.Visible;
+            checkSuffix.Visibility = Visibility.Visible;
+            sufix.Visibility = Visibility.Visible;
         }
 
         private static string GetHash(string input)
@@ -180,7 +200,7 @@ namespace CrackerServerWPF
             }
             else
             {
-                instance.StartCrackingDictionary(md5Password, packageSize);
+                instance.StartCrackingDictionary(md5Password, packageSize, (bool)checkUpperCase.IsChecked, (bool)checkSuffix.IsChecked, sufix.Text);
             }
         }
 

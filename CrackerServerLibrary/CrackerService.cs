@@ -31,13 +31,13 @@ namespace CrackerServerLibrary
             }
         }
 
-        public void StartCrackingDictionary(string md5Password, int packageSize)
+        public void StartCrackingDictionary(string md5Password, int packageSize, bool checkUpperCase, bool checkSuffix, String suffix)
         {
             int position = 0;
             foreach (ICrackerServiceCallback callback in Callbacks)
             {
                 callback.Print(md5Password);
-                callback.DictionaryCrack(position, position + packageSize, md5Password);
+                callback.DictionaryCrack(position, position + packageSize, md5Password, checkUpperCase, checkSuffix, suffix);
                 position += packageSize;
             }
         }

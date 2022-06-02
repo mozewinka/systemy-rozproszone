@@ -46,16 +46,23 @@ namespace CrackerClient
             Client.AnnounceResult(result);
         }
 
-        public void DictionaryCrack(int startPosition, int endPosition, string md5Password)
+        public void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix, String suffix)
         {
-            if (DictionaryList.Count == 0) // add check if local dict is same as server one
+            if (DictionaryList.Count == 0)
             {
                 Console.WriteLine("Getting dictionary...");
                 DictionaryData dictionary = Client.SendDictionary();
                 DictionaryList = dictionary.List;
-                //callbackHandler.DictionaryList.ForEach(Console.WriteLine); // test
+
                 Console.WriteLine("Received dictionary with " + DictionaryList.Count + " words.");
             }
+
+            List<string> options = new List<string>();
+            options.Add("normal");
+            if (checkUpperCase) options.Add("checkUpper");
+            if (checkSuffix) options.Add("checkSuffix");
+            if (checkSuffix && checkUpperCase) options.Add("checkUpperAndSuffix");
+
 
             Console.WriteLine("Started dictionary cracking " + md5Password + " with range (" + startPosition + ", " + endPosition + ")");
             int currentPosition = startPosition;
@@ -63,17 +70,41 @@ namespace CrackerClient
 
             while (currentPosition != endPosition)
             {
-                string currentHash = CrackTools.GetHash(DictionaryList[currentPosition]);
-
+                string currentHash = "";
+                string password = "";
+                foreach (string option in options)
+                {
+                    if (option.Equals("normal"))
+                    {
+                        password = DictionaryList[currentPosition];
+                        currentHash = CrackTools.GetHash(password);
+                    }
+                    else if (option.Equals("checkUpper"))
+                    {
+                        password = char.ToUpper(DictionaryList[currentPosition][0]) + DictionaryList[currentPosition].Substring(1);
+                        currentHash = CrackTools.GetHash(password);
+                    }
+                    else if (option.Equals("checkSuffix"))
+                    {
+                        password = DictionaryList[currentPosition] + suffix;
+                        currentHash = CrackTools.GetHash(password);
+                    }
+                    else if (option.Equals("checkUpperAndSuffix"))
+                    {
+                        password = char.ToUpper(DictionaryList[currentPosition][0]) + DictionaryList[currentPosition].Substring(1) + suffix;
+                        currentHash = CrackTools.GetHash(password);
+                    }
+                    if (currentHash.Equals(md5Password))
+                    {
+                        break;
+                    }
+                }
                 if (currentHash.Equals(md5Password))
                 {
-                    result = "Cracked password: " + DictionaryList[currentPosition];
+                    result = "Cracked password: " + password;
                     break;
                 }
-                else
-                {
-                    currentPosition += 1;
-                }
+                else currentPosition += 1;
             }
 
             Console.WriteLine(result);
