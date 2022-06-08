@@ -68,11 +68,17 @@ namespace CrackerClient.CrackerServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICrackerService/SendDictionary", ReplyAction="http://tempuri.org/ICrackerService/SendDictionaryResponse")]
         System.Threading.Tasks.Task<CrackerClient.CrackerServiceReference.DictionaryData> SendDictionaryAsync();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/Receive")]
-        void Receive();
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AnnounceResult")]
+        void AnnounceResult(string message);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/Receive")]
-        System.Threading.Tasks.Task ReceiveAsync();
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AnnounceResult")]
+        System.Threading.Tasks.Task AnnounceResultAsync(string message);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AddClient")]
+        void AddClient();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AddClient")]
+        System.Threading.Tasks.Task AddClientAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -80,6 +86,15 @@ namespace CrackerClient.CrackerServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/Print")]
         void Print(string md5Password);
+<<<<<<< HEAD
+=======
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/BruteCrack")]
+        void BruteCrack(string startPosition, string endPosition, string md5Password);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/DictionaryCrack")]
+        void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix, string suffix);
+>>>>>>> 345f6d9ed391109fd4f376f238f5617d6a038bbe
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -118,12 +133,20 @@ namespace CrackerClient.CrackerServiceReference {
             return base.Channel.SendDictionaryAsync();
         }
         
-        public void Receive() {
-            base.Channel.Receive();
+        public void AnnounceResult(string message) {
+            base.Channel.AnnounceResult(message);
         }
         
-        public System.Threading.Tasks.Task ReceiveAsync() {
-            return base.Channel.ReceiveAsync();
+        public System.Threading.Tasks.Task AnnounceResultAsync(string message) {
+            return base.Channel.AnnounceResultAsync(message);
+        }
+        
+        public void AddClient() {
+            base.Channel.AddClient();
+        }
+        
+        public System.Threading.Tasks.Task AddClientAsync() {
+            return base.Channel.AddClientAsync();
         }
     }
 }

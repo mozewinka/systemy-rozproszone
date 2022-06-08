@@ -13,7 +13,14 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Receive">
+  <xs:element name="AnnounceResult">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddClient">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
@@ -23,6 +30,30 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="md5Password" nillable="true" type="xs:string" />
       </xs:sequence>
+<<<<<<< HEAD
+=======
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BruteCrack">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="startPosition" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="endPosition" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="md5Password" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DictionaryCrack">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="startPosition" type="xs:int" />
+        <xs:element minOccurs="0" name="endPosition" type="xs:int" />
+        <xs:element minOccurs="0" name="md5Password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="checkUpperCase" type="xs:boolean" />
+        <xs:element minOccurs="0" name="checkSuffix" type="xs:boolean" />
+        <xs:element minOccurs="0" name="suffix" nillable="true" type="xs:string" />
+      </xs:sequence>
+>>>>>>> 345f6d9ed391109fd4f376f238f5617d6a038bbe
     </xs:complexType>
   </xs:element>
 </xs:schema>

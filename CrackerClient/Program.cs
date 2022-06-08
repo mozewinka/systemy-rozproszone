@@ -1,12 +1,12 @@
 ﻿using CrackerClient.CrackerServiceReference;
 using System;
-using System.Collections.Generic;
 using System.ServiceModel;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace CrackerClient
 {
+<<<<<<< HEAD
     public class CallbackHandler : ICrackerServiceCallback
     {
         char[] table = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -106,14 +106,19 @@ namespace CrackerClient
         }
     }
 
+=======
+>>>>>>> 345f6d9ed391109fd4f376f238f5617d6a038bbe
     internal class Program
     {
+
         private static void Main()
         {
             CallbackHandler callbackHandler = new CallbackHandler();
             InstanceContext instanceContext = new InstanceContext(callbackHandler);
             CrackerServiceClient client = new CrackerServiceClient(instanceContext);
+            callbackHandler.Client = client;
 
+<<<<<<< HEAD
             Console.WriteLine("Getting dictionary...");
             DictionaryData dictionary = client.SendDictionary();
             callbackHandler.DictionaryList = dictionary.List;
@@ -123,6 +128,23 @@ namespace CrackerClient
             Console.WriteLine("\nPress enter to quit...\n");
             _ = Console.ReadLine();
             client.Close();
+=======
+            try
+            {
+                Console.WriteLine("Connecting...");
+                client.AddClient();
+
+                Console.WriteLine("Client ready");
+                Console.WriteLine("Press enter to quit...");
+                _ = Console.ReadLine();
+
+                client.Close();
+            }
+            catch (TimeoutException ex)
+            {
+                Console.WriteLine("The host did not respond. (" + ex + ")");
+            }
+>>>>>>> 345f6d9ed391109fd4f376f238f5617d6a038bbe
         }
     }
 }

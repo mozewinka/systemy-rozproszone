@@ -1,0 +1,4 @@
+. Average cracking speed was 105000 H/s
+. Average cracking speed was 147000 H/s
+Cracked password: AB. Average cracking speed was 126000 H/s
+Password not found in given range. Average cracking speed was 153000 H/s

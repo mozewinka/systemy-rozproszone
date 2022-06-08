@@ -1,24 +1,22 @@
 ﻿using CrackerServerLibrary;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
+<<<<<<< HEAD
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Security.Cryptography;
+=======
+using System.Security.Cryptography;
+using System.Collections.Specialized;
+using Meziantou.Framework.WPF.Collections;
+>>>>>>> 345f6d9ed391109fd4f376f238f5617d6a038bbe
 
 namespace CrackerServerWPF
 {
@@ -30,17 +28,50 @@ namespace CrackerServerWPF
         private ServiceHost selfHost;
         private readonly CrackerService instance;
 
-        private ObservableCollection<string> Logs { get; } = new ObservableCollection<string>();
+        private ObservableCollection<string> Logs { get; }
+        private ObservableCollection<string> ClientMessages { get; }
+        private ConcurrentObservableCollection<ICrackerServiceCallback> Callbacks { get; }
 
         public MainWindow()
         {
             InitializeComponent();
             stopButton.IsEnabled = false;
             crackButton.IsEnabled = false;
-            listView.ItemsSource = Logs;
             filePath.IsEnabled = false;
             fileButton.IsEnabled = false;
+            checkUpperCase.Visibility = Visibility.Hidden;
+            checkSuffix.Visibility = Visibility.Hidden;
+            sufix.Visibility = Visibility.Hidden;
+            sufix.IsEnabled = false;
             instance = new CrackerService();
+
+            Logs = new ObservableCollection<string>();
+            listView.ItemsSource = Logs;
+
+            ClientMessages = new ObservableCollection<string>();
+            ClientMessages.CollectionChanged += OnMessagesChanged;
+            instance.ClientMessages = ClientMessages;
+
+            Callbacks = new ConcurrentObservableCollection<ICrackerServiceCallback>();
+            Callbacks.AsObservable.CollectionChanged += OnCallbacksChanged;
+            instance.Callbacks = Callbacks;
+        }
+
+        private void OnMessagesChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            foreach (object element in args.NewItems)
+            {
+                Logs.Add(element.ToString());
+            }
+        }
+
+        private void OnCallbacksChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            clientsCountLabel.Text = Callbacks.Count.ToString();
+            if (Callbacks.Count < 1)
+            {
+                crackButton.IsEnabled = false;
+            }
         }
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
@@ -50,7 +81,13 @@ namespace CrackerServerWPF
 
             try
             {
-                _ = selfHost.AddServiceEndpoint(typeof(ICrackerService), new WSDualHttpBinding(), "CrackerService");
+                WSDualHttpBinding binding = new WSDualHttpBinding
+                {
+                    Name = "DuplexBinding",
+                    Security = { Mode = WSDualHttpSecurityMode.None },
+                    MessageEncoding = WSMessageEncoding.Mtom
+                };
+                _ = selfHost.AddServiceEndpoint(typeof(ICrackerService), binding, "CrackerService");
                 ServiceMetadataBehavior smb = new ServiceMetadataBehavior
                 {
                     HttpGetEnabled = true
@@ -83,6 +120,7 @@ namespace CrackerServerWPF
         {
             try
             {
+                Callbacks.Clear();
                 selfHost.Close();
                 statusLabel.Content = "STOPPED";
                 statusLabel.Foreground = Brushes.Red;
@@ -108,8 +146,21 @@ namespace CrackerServerWPF
             }
             filePath.IsEnabled = false;
             fileButton.IsEnabled = false;
+            checkUpperCase.Visibility = Visibility.Hidden;
+            checkSuffix.Visibility = Visibility.Hidden;
+            sufix.Visibility = Visibility.Hidden;
         }
 
+        private void SuffixRadioChecked(object sender, RoutedEventArgs e)
+        {
+            sufix.IsEnabled = true;
+        }
+
+        private void SuffixRadioUnchecked(object sender, RoutedEventArgs e)
+        {
+            sufix.IsEnabled = false;
+        }
+        
         private void DictionaryRadioChecked(object sender, RoutedEventArgs e)
         {
             if (!startButton.IsEnabled)
@@ -118,6 +169,26 @@ namespace CrackerServerWPF
             }
             filePath.IsEnabled = true;
             fileButton.IsEnabled = true;
+            checkUpperCase.Visibility = Visibility.Visible;
+            checkSuffix.Visibility = Visibility.Visible;
+            sufix.Visibility = Visibility.Visible;
+        }
+
+        private static string GetHash(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    _ = stringBuilder.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return stringBuilder.ToString();
+            }
         }
 
         private static string GetHash(string input)
@@ -141,12 +212,29 @@ namespace CrackerServerWPF
         {
             string method = (bool)bruteForceRadio.IsChecked ? "Brute Force" : "Dictionary";
             string md5Password = GetHash(passwordTextBox.Text);
+<<<<<<< HEAD
             
             Logs.Add("The MD5 hash of " + passwordTextBox.Text + " is " + md5Password);
             Logs.Add("Started cracking with " + method + " method");
 
             instance.StartCracking(md5Password);
             // ...
+=======
+            int packageSize = int.Parse(packageSizeTextBox.Text);
+
+            Logs.Add("The MD5 hash of " + passwordTextBox.Text + " is " + md5Password);
+            Logs.Add("Started cracking with " + method + " method");
+            Logs.Add("Package size is " + packageSize);
+
+            if (method == "Brute Force")
+            {
+                instance.StartCrackingBrute(md5Password, packageSize);
+            }
+            else
+            {
+                instance.StartCrackingDictionary(md5Password, packageSize, (bool)checkUpperCase.IsChecked, (bool)checkSuffix.IsChecked, sufix.Text);
+            }
+>>>>>>> 345f6d9ed391109fd4f376f238f5617d6a038bbe
         }
 
         private void FileButtonClick(object sender, RoutedEventArgs e)
