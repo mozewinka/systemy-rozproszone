@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Security.Cryptography;
 using System.ServiceModel;
 
 namespace CrackerServerLibrary
@@ -82,7 +83,7 @@ namespace CrackerServerLibrary
             }
         }
 
-        public void StartCrackingDictionary(string md5Password, int packageSize, bool checkUpperCase, bool checkSuffix, string suffix)
+        public void StartCrackingDictionary(string md5Password, int packageSize, bool checkUpperCase, bool checkSuffix)
         {
             currentPosition = 0;
             this.md5Password = md5Password;
@@ -105,6 +106,7 @@ namespace CrackerServerLibrary
 
             if (FilePath != null)
             {
+                Console.WriteLine(FilePath);
                 FileStream file = File.OpenRead(FilePath);
                 StreamReader reader = new StreamReader(file);
 
@@ -118,6 +120,23 @@ namespace CrackerServerLibrary
             {
                 List = list
             };
+        }
+
+        public string SendDictionaryHash()
+        {
+            if (FilePath != null)
+            {
+                Console.WriteLine(FilePath);
+                using (var md5 = MD5.Create())
+                {
+                    using (var stream = File.OpenRead(FilePath))
+                    {
+                        var hash = md5.ComputeHash(stream);
+                        return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                    }
+                }
+            }
+            return null;
         }
 
         public void AddClient()

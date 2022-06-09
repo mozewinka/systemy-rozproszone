@@ -30,10 +30,9 @@
         <Label x:Name="packageSizeInfoLabel" Content="Package size:" HorizontalAlignment="Left" Margin="16,68,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="packageSizeTextBox" HorizontalAlignment="Left" Height="20" Margin="94,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166"/>
         <CheckBox x:Name="checkUpperCase" Content="Check first letter upper case" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"/>
-        <CheckBox x:Name="checkSuffix" Content="Add suffix" HorizontalAlignment="Left" Margin="20,252,0,0" VerticalAlignment="Top" Checked="SuffixRadioChecked" Unchecked="SuffixRadioUnchecked"/>
-        <TextBox x:Name="suffix" HorizontalAlignment="Left" Height="23" Margin="100,248,0,0" VerticalAlignment="Top" Width="121"/>
-        <Label x:Name="clientsInfoLabel" Content="Connected clients: " HorizontalAlignment="Left" Margin="16,365,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="clientsCountLabel" Content="0" HorizontalAlignment="Left" Margin="120,365,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkSuffix" Content="Add suffix" HorizontalAlignment="Left" Margin="20,252,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="clientsInfoLabel" Content="Connected clients: " HorizontalAlignment="Left" Margin="20,365,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="clientsCountLabel" Content="0" HorizontalAlignment="Left" Margin="124,365,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="statusLabel" HorizontalAlignment="Left" Margin="100,160,0,0" TextWrapping="Wrap" Text="STOPPED" VerticalAlignment="Top" Foreground="Red"/>
         <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="100,405,0,0" VerticalAlignment="Top" Width="75" Click="CancelButtonClick"/>
     </Grid>
