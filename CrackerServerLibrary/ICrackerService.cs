@@ -47,7 +47,7 @@ namespace CrackerServerLibrary
         void AnnounceResult(ResultData result);
 
         [OperationContract(IsOneWay = true)]
-        void AddClient();
+        void AddClient(string clientID);
     }
     public interface ICrackerServiceCallback
     {

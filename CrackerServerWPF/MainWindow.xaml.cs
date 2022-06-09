@@ -23,7 +23,7 @@ namespace CrackerServerWPF
 
         private ObservableCollection<string> Logs { get; }
         private ObservableCollection<string> ClientMessages { get; }
-        private ConcurrentObservableCollection<ICrackerServiceCallback> Callbacks { get; }
+        private ConcurrentObservableCollection<Client> Clients { get; }
 
         public MainWindow()
         {
@@ -44,9 +44,9 @@ namespace CrackerServerWPF
             ClientMessages.CollectionChanged += OnMessagesChanged;
             instance.ClientMessages = ClientMessages;
 
-            Callbacks = new ConcurrentObservableCollection<ICrackerServiceCallback>();
-            Callbacks.AsObservable.CollectionChanged += OnCallbacksChanged;
-            instance.Callbacks = Callbacks;
+            Clients = new ConcurrentObservableCollection<Client>();
+            Clients.AsObservable.CollectionChanged += OnCallbacksChanged;
+            instance.Clients = Clients;
         }
 
         private void OnMessagesChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -59,8 +59,8 @@ namespace CrackerServerWPF
 
         private void OnCallbacksChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
-            clientsCountLabel.Content = Callbacks.Count.ToString();
-            crackButton.IsEnabled = Callbacks.Count >= 1;
+            clientsCountLabel.Content = Clients.Count.ToString();
+            crackButton.IsEnabled = Clients.Count >= 1;
         }
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
@@ -109,7 +109,7 @@ namespace CrackerServerWPF
         {
             try
             {
-                Callbacks.Clear();
+                Clients.Clear();
                 selfHost.Close();
                 statusLabel.Text = "STOPPED";
                 statusLabel.Foreground = Brushes.Red;

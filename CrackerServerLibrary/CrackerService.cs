@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.ServiceModel;
 
@@ -19,9 +20,8 @@ namespace CrackerServerLibrary
         private int packageSize;
         private bool checkUpperCase;
         private bool checkSuffix;
-        private string suffix;
 
-        public ConcurrentObservableCollection<ICrackerServiceCallback> Callbacks;
+        public ConcurrentObservableCollection<Client> Clients;
         public ObservableCollection<string> ClientMessages;
 
         public void AnnounceResult(ResultData result)
@@ -31,16 +31,19 @@ namespace CrackerServerLibrary
                                "Elapsed time: " + result.CrackingTime + " ms" + "\n" +
                                "Average cracking speed: " + result.CrackingPerformance + " kH/s");
             LogResultToFile(result);
+
             IsCracking = !result.IsCracked;
             if (IsCracking)
             {
+                Client client = Clients.First(e => e.ClientID == result.ClientID);
                 if (result.CrackingMethod == "Dictionary")
                 {
-                    Callbacks[0].DictionaryCrack(currentPosition, currentPosition + packageSize, md5Password, checkUpperCase, checkSuffix, suffix); //temp
+                    
+                    client.Callback.DictionaryCrack(currentPosition, currentPosition + packageSize, md5Password, checkUpperCase, checkSuffix); //temp
                 }
                 else
                 {
-                    Callbacks[0].BruteCrack(currentPosition.ToString(), (currentPosition + packageSize).ToString(), md5Password); //temp
+                    client.Callback.BruteCrack(currentPosition.ToString(), (currentPosition + packageSize).ToString(), md5Password); //temp
                 }
                 currentPosition += packageSize;
             }
@@ -75,10 +78,10 @@ namespace CrackerServerLibrary
             this.md5Password = md5Password;
             this.packageSize = packageSize;
 
-            foreach (ICrackerServiceCallback callback in Callbacks)
+            foreach (Client client in Clients)
             {
-                callback.Print(md5Password);
-                callback.BruteCrack(currentPosition.ToString(), (currentPosition + packageSize).ToString(), md5Password);
+                client.Callback.Print(md5Password);
+                client.Callback.BruteCrack(currentPosition.ToString(), (currentPosition + packageSize).ToString(), md5Password);
                 currentPosition += packageSize;
             }
         }
@@ -90,12 +93,11 @@ namespace CrackerServerLibrary
             this.packageSize = packageSize;
             this.checkUpperCase = checkUpperCase;
             this.checkSuffix = checkSuffix;
-            this.suffix = suffix;
 
-            foreach (ICrackerServiceCallback callback in Callbacks)
+            foreach (Client client in Clients)
             {
-                callback.Print(md5Password);
-                callback.DictionaryCrack(currentPosition, currentPosition + packageSize, md5Password, checkUpperCase, checkSuffix, suffix);
+                client.Callback.Print(md5Password);
+                client.Callback.DictionaryCrack(currentPosition, currentPosition + packageSize, md5Password, checkUpperCase, checkSuffix);
                 currentPosition += packageSize;
             }
         }
@@ -127,11 +129,11 @@ namespace CrackerServerLibrary
             if (FilePath != null)
             {
                 Console.WriteLine(FilePath);
-                using (var md5 = MD5.Create())
+                using (MD5 md5 = MD5.Create())
                 {
-                    using (var stream = File.OpenRead(FilePath))
+                    using (FileStream stream = File.OpenRead(FilePath))
                     {
-                        var hash = md5.ComputeHash(stream);
+                        byte[] hash = md5.ComputeHash(stream);
                         return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
                     }
                 }
@@ -139,16 +141,20 @@ namespace CrackerServerLibrary
             return null;
         }
 
-        public void AddClient()
+        public void AddClient(string clientID)
         {
-            Callbacks.Add(OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>());
+            Clients.Add(new Client()
+            {
+                ClientID = clientID,
+                Callback = OperationContext.Current.GetCallbackChannel<ICrackerServiceCallback>()
+            });
             OperationContext.Current.Channel.Closed += new EventHandler(OnClientDisconnected);
         }
 
         public void OnClientDisconnected(object sender, EventArgs args)
         {
             ICrackerServiceCallback callback = sender as ICrackerServiceCallback;
-            _ = Callbacks.Remove(callback);
+            _ = Clients.Remove(Clients.First(e => e.Callback == callback));
         }
     }
 }
