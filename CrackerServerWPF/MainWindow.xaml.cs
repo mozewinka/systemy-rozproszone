@@ -30,6 +30,7 @@ namespace CrackerServerWPF
             InitializeComponent();
             stopButton.IsEnabled = false;
             crackButton.IsEnabled = false;
+            cancelButton.IsEnabled = false;
             filePath.IsEnabled = false;
             fileButton.IsEnabled = false;
             checkUpperCase.Visibility = Visibility.Hidden;
@@ -199,6 +200,17 @@ namespace CrackerServerWPF
             {
                 instance.StartCrackingDictionary(md5Password, packageSize, (bool)checkUpperCase.IsChecked, (bool)checkSuffix.IsChecked, suffix.Text);
             }
+
+            crackButton.IsEnabled = false;
+            cancelButton.IsEnabled = true;
+            instance.IsCracking = true;
+        }
+
+        private void CancelButtonClick(object sender, RoutedEventArgs e)
+        {
+            crackButton.IsEnabled = true;
+            cancelButton.IsEnabled = false;
+            instance.IsCracking = false;
         }
 
         private void FileButtonClick(object sender, RoutedEventArgs e)

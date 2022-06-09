@@ -11,6 +11,14 @@ namespace CrackerServerLibrary
     public class CrackerService : ICrackerService
     {
         public string FilePath { get; set; }
+        public bool IsCracking { get; set; }
+
+        private int currentPosition;
+        private string md5Password;
+        private int packageSize;
+        private bool checkUpperCase;
+        private bool checkSuffix;
+        private string suffix;
 
         public ConcurrentObservableCollection<ICrackerServiceCallback> Callbacks;
         public ObservableCollection<string> ClientMessages;
@@ -22,6 +30,19 @@ namespace CrackerServerLibrary
                                "Elapsed time: " + result.CrackingTime + " ms" + "\n" +
                                "Average cracking speed: " + result.CrackingPerformance + " kH/s");
             LogResultToFile(result);
+            IsCracking = !result.IsCracked;
+            if (IsCracking)
+            {
+                if (result.CrackingMethod == "Dictionary")
+                {
+                    Callbacks[0].DictionaryCrack(currentPosition, currentPosition + packageSize, md5Password, checkUpperCase, checkSuffix, suffix); //temp
+                }
+                else
+                {
+                    Callbacks[0].BruteCrack(currentPosition.ToString(), (currentPosition + packageSize).ToString(), md5Password); //temp
+                }
+                currentPosition += packageSize;
+            }
         }
 
         private void LogResultToFile(ResultData result)
@@ -49,23 +70,32 @@ namespace CrackerServerLibrary
 
         public void StartCrackingBrute(string md5Password, int packageSize)
         {
-            int position = 0;
+            currentPosition = 0;
+            this.md5Password = md5Password;
+            this.packageSize = packageSize;
+
             foreach (ICrackerServiceCallback callback in Callbacks)
             {
                 callback.Print(md5Password);
-                callback.BruteCrack(position.ToString(), (position + packageSize).ToString(), md5Password);
-                position += packageSize;
+                callback.BruteCrack(currentPosition.ToString(), (currentPosition + packageSize).ToString(), md5Password);
+                currentPosition += packageSize;
             }
         }
 
         public void StartCrackingDictionary(string md5Password, int packageSize, bool checkUpperCase, bool checkSuffix, string suffix)
         {
-            int position = 0;
+            currentPosition = 0;
+            this.md5Password = md5Password;
+            this.packageSize = packageSize;
+            this.checkUpperCase = checkUpperCase;
+            this.checkSuffix = checkSuffix;
+            this.suffix = suffix;
+
             foreach (ICrackerServiceCallback callback in Callbacks)
             {
                 callback.Print(md5Password);
-                callback.DictionaryCrack(position, position + packageSize, md5Password, checkUpperCase, checkSuffix, suffix);
-                position += packageSize;
+                callback.DictionaryCrack(currentPosition, currentPosition + packageSize, md5Password, checkUpperCase, checkSuffix, suffix);
+                currentPosition += packageSize;
             }
         }
 

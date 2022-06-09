@@ -56,6 +56,10 @@ namespace CrackerClient
 
             stopwatch.Stop();
             result.CrackingTime = stopwatch.ElapsedMilliseconds;
+            if (result.CrackingTime == 0)
+            {
+                result.CrackingTime = 1;
+            }
             result.CrackingPerformance = counter / result.CrackingTime;
             CrackTools.PrintResult(result);
             Client.AnnounceResult(result);
@@ -149,7 +153,7 @@ namespace CrackerClient
             result.CrackingTime = stopwatch.ElapsedMilliseconds;
             if (result.CrackingTime == 0)
             {
-                result.CrackingTime = 1; // łapie zero przy początkowych wyrazach słownika
+                result.CrackingTime = 1;
             }
             result.CrackingPerformance = counter / result.CrackingTime;
             CrackTools.PrintResult(result);
