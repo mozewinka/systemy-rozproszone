@@ -80,10 +80,68 @@ namespace CrackerServerLibrary
 
             foreach (Client client in Clients)
             {
-                client.Callback.Print(md5Password);
-                client.Callback.BruteCrack(currentPosition.ToString(), (currentPosition + packageSize).ToString(), md5Password);
+                callback.Print(md5Password);
+                string endPosition = AddInNumericSystem(ConvertToNumericSystem(currentPosition), ConvertToNumericSystem(packageSize));
+                callback.BruteCrack(ConvertToNumericSystem(currentPosition),endPosition, md5Password);
                 currentPosition += packageSize;
             }
+        }
+
+        string AddInNumericSystem(string a, string b)
+        {
+            char[] table = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+            if (a.Length < b.Length)
+            {
+                string tmp = a;
+                a = b; b = tmp;
+            }
+            int l1 = a.Length, l2 = b.Length;
+            string ans = "";
+            int carry = 0, i, j;
+
+            for (i = l1 - 1, j = l2 - 1;
+                 j >= 0; i--, j--)
+            {
+                int sum = Array.IndexOf(table, a[i]) + Array.IndexOf(table, b[j]) + carry;
+
+                int addition_bit = table[sum % table.Length];
+                ans += (char)addition_bit;
+
+                carry = sum / table.Length;
+            }
+
+            while (i >= 0)
+            {
+                int sum = Array.IndexOf(table, a[i]) + carry;
+                int addition_bit = table[sum % table.Length];
+
+                ans += (char)addition_bit;
+                carry = sum / table.Length;
+                i--;
+            }
+            if (carry > 0)
+            {
+                ans += table[carry];
+            }
+            char[] charArray = ans.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+
+        }
+
+        static string ConvertToNumericSystem( int enteredNumber)
+        {
+            string changed = string.Empty;
+            char[] table = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+            while (enteredNumber > 0)
+            {
+                int reminder = enteredNumber % table.Length;
+                changed = table[reminder] + changed;
+                enteredNumber = enteredNumber / table.Length;
+            }
+            return changed;
         }
 
         public void StartCrackingDictionary(string md5Password, int packageSize, bool checkUpperCase, bool checkSuffix)
