@@ -29,7 +29,7 @@ namespace CrackerServerLibrary
 
         public void AnnounceResult(ResultData result)
         {
-            if (result.IsCracked)
+            if (result.IsCracked || !ShouldCrack)
             {
                 stopwatch.Stop();
             }
@@ -39,8 +39,8 @@ namespace CrackerServerLibrary
             ClientMessages.Add("Client ID: " + result.ClientID + "\n" +
                                "Result: " + (result.IsCracked ? "Cracked password: " + result.CrackedPassword : "Password not found in given range") + "\n" +
                                "Elapsed time: " + result.CrackingTime + " ms" + "\n" +
-                               "Average cracking speed: " + result.CrackingPerformance + " kH/s" + 
-                               (result.IsCracked ? "\nTotal cracking time: " + stopwatch.ElapsedMilliseconds + " ms" : ""));
+                               "Average cracking speed: " + result.CrackingPerformance + " kH/s" +
+                               (result.IsCracked || !ShouldCrack ? "\nTotal cracking time: " + stopwatch.ElapsedMilliseconds + " ms" : ""));
             LogResultToFile(result);
             
             if (IsCracking && ShouldCrack)
@@ -79,7 +79,7 @@ namespace CrackerServerLibrary
                                        result.CrackingTime + ";" +
                                        result.CrackingPerformance + ";" +
                                        result.CrackingMethod + ";" +
-                                       (result.IsCracked ? stopwatch.ElapsedMilliseconds.ToString() : ""));
+                                       (result.IsCracked || !ShouldCrack ? stopwatch.ElapsedMilliseconds.ToString() : ""));
             }
         }
 
