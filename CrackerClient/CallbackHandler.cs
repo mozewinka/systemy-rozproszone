@@ -33,7 +33,8 @@ namespace CrackerClient
             ResultData result = new ResultData
             {
                 ClientID = ClientID,
-                IsCracked = false
+                IsCracked = false,
+                CrackingMethod = "Brute force"
             };
 
             while (currentPosition != endPosition)
@@ -96,7 +97,8 @@ namespace CrackerClient
             ResultData result = new ResultData
             {
                 ClientID = ClientID,
-                IsCracked = false
+                IsCracked = false,
+                CrackingMethod = "Dictionary"
             };
 
             while (currentPosition != endPosition)

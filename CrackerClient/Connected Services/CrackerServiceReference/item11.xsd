@@ -11,6 +11,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="ClientID" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="CrackedPassword" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CrackingMethod" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="CrackingPerformance" type="xs:long" />
       <xs:element minOccurs="0" name="CrackingTime" type="xs:long" />
       <xs:element minOccurs="0" name="IsCracked" type="xs:boolean" />

@@ -30,6 +30,9 @@ namespace CrackerServerLibrary
         [DataMember]
         public long CrackingPerformance { get; set; }
 
+        [DataMember]
+        public string CrackingMethod { get; set; }
+
     }
 
     [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(ICrackerServiceCallback))]

@@ -74,6 +74,9 @@ namespace CrackerClient.CrackerServiceReference {
         private string CrackedPasswordField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CrackingMethodField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private long CrackingPerformanceField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -114,6 +117,19 @@ namespace CrackerClient.CrackerServiceReference {
                 if ((object.ReferenceEquals(this.CrackedPasswordField, value) != true)) {
                     this.CrackedPasswordField = value;
                     this.RaisePropertyChanged("CrackedPassword");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CrackingMethod {
+            get {
+                return this.CrackingMethodField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CrackingMethodField, value) != true)) {
+                    this.CrackingMethodField = value;
+                    this.RaisePropertyChanged("CrackingMethod");
                 }
             }
         }

@@ -31,14 +31,19 @@ namespace CrackerServerLibrary
             {
                 using (StreamWriter streamWriter = File.CreateText(path))
                 {
-                    streamWriter.WriteLine("ClientID;IsCracked;CrackedPassword;CrackingTime(ms);CrackingPerformance(kH/s)");
+                    streamWriter.WriteLine("ClientID;IsCracked;CrackedPassword;CrackingTime(ms);CrackingPerformance(kH/s);Method");
                 }
             }
 
             using (StreamWriter streamWriter = File.AppendText(path))
             {
                 ClientMessages.Add(((FileStream)streamWriter.BaseStream).Name); //temp
-                streamWriter.WriteLine(result.ClientID + ";" + result.IsCracked + ";" + result.CrackedPassword + ";" + result.CrackingTime + ";" + result.CrackingPerformance);
+                streamWriter.WriteLine(result.ClientID + ";" +
+                                       result.IsCracked + ";" +
+                                       result.CrackedPassword + ";" +
+                                       result.CrackingTime + ";" +
+                                       result.CrackingPerformance + ";" +
+                                       result.CrackingMethod);
             }
         }
 
