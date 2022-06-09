@@ -13,6 +13,8 @@ namespace CrackerClient
             InstanceContext instanceContext = new InstanceContext(callbackHandler);
             CrackerServiceClient client = new CrackerServiceClient(instanceContext);
             callbackHandler.Client = client;
+            callbackHandler.ClientID = CrackTools.GetCPUID();
+
 
             try
             {
@@ -28,6 +30,7 @@ namespace CrackerClient
             catch (TimeoutException ex)
             {
                 Console.WriteLine("The host did not respond. (" + ex + ")");
+                _ = Console.ReadLine();
             }
         }
     }

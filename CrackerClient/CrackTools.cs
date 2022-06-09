@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CrackerClient.CrackerServiceReference;
+using System;
+using System.Management;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -66,6 +68,33 @@ namespace CrackerClient
 
                 return stringBuilder.ToString();
             }
+        }
+
+        public static void PrintResult(ResultData result)
+        {
+            Console.WriteLine("Client ID: " + result.ClientID);
+            Console.WriteLine("Result: " + (result.IsCracked ? "Cracked password: " + result.CrackedPassword : "Password not found in given range"));
+            Console.WriteLine("Elapsed time: " + result.CrackingTime + " ms");
+            Console.WriteLine("Average cracking speed: " + result.CrackingPerformance + " kH/s");
+        }
+
+        public static string GetCPUID()
+        {
+            string cpuID = "";
+
+            ManagementClass management = new ManagementClass("win32_processor");
+            ManagementObjectCollection objects = management.GetInstances();
+
+            foreach (ManagementObject @object in objects)
+            {
+                if (cpuID == "")
+                {
+                    cpuID = @object.Properties["processorID"].Value.ToString();
+                    break;
+                }
+            }
+
+            return cpuID;
         }
     }
 }

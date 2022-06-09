@@ -7,4 +7,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="DictionaryData" nillable="true" type="tns:DictionaryData" />
+  <xs:complexType name="ResultData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ClientID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CrackedPassword" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CrackingPerformance" type="xs:long" />
+      <xs:element minOccurs="0" name="CrackingTime" type="xs:long" />
+      <xs:element minOccurs="0" name="IsCracked" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResultData" nillable="true" type="tns:ResultData" />
 </xs:schema>

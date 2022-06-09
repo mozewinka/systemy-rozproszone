@@ -61,10 +61,7 @@ namespace CrackerServerWPF
         private void OnCallbacksChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
             clientsCountLabel.Text = Callbacks.Count.ToString();
-            if (Callbacks.Count < 1)
-            {
-                crackButton.IsEnabled = false;
-            }
+            crackButton.IsEnabled = Callbacks.Count >= 1;
         }
 
         private void StartButtonClick(object sender, RoutedEventArgs e)
@@ -190,9 +187,9 @@ namespace CrackerServerWPF
             string md5Password = GetHash(passwordTextBox.Text);
             int packageSize = int.Parse(packageSizeTextBox.Text);
 
-            Logs.Add("The MD5 hash of " + passwordTextBox.Text + " is " + md5Password);
-            Logs.Add("Started cracking with " + method + " method");
-            Logs.Add("Package size is " + packageSize);
+            Logs.Add("MD5 hash of " + passwordTextBox.Text + ": " + md5Password + "\n" +
+                     "Package size: " + packageSize + "\n" +
+                     "Started cracking with " + method + " method");
 
             if (method == "Brute Force")
             {

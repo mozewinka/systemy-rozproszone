@@ -11,6 +11,7 @@ namespace CrackerClient
     {
         public List<string> DictionaryList { get; set; }
         public CrackerServiceClient Client { get; set; }
+        public string ClientID { get; set; }
 
         public CallbackHandler()
         {
@@ -29,7 +30,11 @@ namespace CrackerClient
 
             Console.WriteLine("Started brute force cracking " + md5Password + " with range (" + startPosition + ", " + endPosition + ")");
             string currentPosition = startPosition;
-            string result = "Password not found in given range";
+            ResultData result = new ResultData
+            {
+                ClientID = ClientID,
+                IsCracked = false
+            };
 
             while (currentPosition != endPosition)
             {
@@ -38,7 +43,8 @@ namespace CrackerClient
 
                 if (currentHash.Equals(md5Password))
                 {
-                    result = "Cracked password: " + currentPosition;
+                    result.IsCracked = true;
+                    result.CrackedPassword = currentPosition;
                     break;
                 }
                 else
@@ -48,10 +54,10 @@ namespace CrackerClient
             }
 
             stopwatch.Stop();
-            string elapsed = ". Elapsed time: " + stopwatch.ElapsedMilliseconds + " ms";
-            string performance = ". Average cracking speed was " + counter / stopwatch.ElapsedMilliseconds * 1000 + " H/s";
-            Console.WriteLine(result + elapsed + performance);
-            Client.AnnounceResult(result + elapsed + performance);
+            result.CrackingTime = stopwatch.ElapsedMilliseconds;
+            result.CrackingPerformance = counter / result.CrackingTime;
+            CrackTools.PrintResult(result);
+            Client.AnnounceResult(result);
         }
 
         public void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix, string suffix)
@@ -87,15 +93,19 @@ namespace CrackerClient
 
             Console.WriteLine("Started dictionary cracking " + md5Password + " with range (" + startPosition + ", " + endPosition + ")");
             int currentPosition = startPosition;
-            string result = "Password not found in given range";
+            ResultData result = new ResultData
+            {
+                ClientID = ClientID,
+                IsCracked = false
+            };
 
             while (currentPosition != endPosition)
             {
                 counter++;
                 string currentHash = "";
-                string password = "";
                 foreach (string option in options)
                 {
+                    string password;
                     if (option.Equals("normal"))
                     {
                         password = DictionaryList[currentPosition];
@@ -123,7 +133,8 @@ namespace CrackerClient
                 }
                 if (currentHash.Equals(md5Password))
                 {
-                    result = "Cracked password: " + password;
+                    result.IsCracked = true;
+                    result.CrackedPassword = currentPosition.ToString();
                     break;
                 }
                 else
@@ -133,10 +144,10 @@ namespace CrackerClient
             }
 
             stopwatch.Stop();
-            string elapsed = ". Elapsed time: " + stopwatch.ElapsedMilliseconds + " ms";
-            string performance = ". Average cracking speed was " + counter / stopwatch.ElapsedMilliseconds * 1000 + " H/s";
-            Console.WriteLine(result + elapsed + performance);
-            Client.AnnounceResult(result + elapsed + performance);
+            result.CrackingTime = stopwatch.ElapsedMilliseconds;
+            result.CrackingPerformance = counter / result.CrackingTime;
+            CrackTools.PrintResult(result);
+            Client.AnnounceResult(result);
         }
     }
 }

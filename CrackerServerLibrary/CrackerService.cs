@@ -15,9 +15,12 @@ namespace CrackerServerLibrary
         public ConcurrentObservableCollection<ICrackerServiceCallback> Callbacks;
         public ObservableCollection<string> ClientMessages;
 
-        public void AnnounceResult(string message)
+        public void AnnounceResult(ResultData result)
         {
-            ClientMessages.Add(message);
+            ClientMessages.Add("Client ID: " + result.ClientID + "\n" +
+                               "Result: " + (result.IsCracked ? "Cracked password: " + result.CrackedPassword : "Password not found in given range") + "\n" +
+                               "Elapsed time: " + result.CrackingTime + " ms" + "\n" +
+                               "Average cracking speed: " + result.CrackingPerformance + " kH/s");
         }
 
         public void StartCrackingBrute(string md5Password, int packageSize)

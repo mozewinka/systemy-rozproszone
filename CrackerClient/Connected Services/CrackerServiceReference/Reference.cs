@@ -58,6 +58,115 @@ namespace CrackerClient.CrackerServiceReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ResultData", Namespace="http://schemas.datacontract.org/2004/07/CrackerServerLibrary")]
+    [System.SerializableAttribute()]
+    public partial class ResultData : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ClientIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CrackedPasswordField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long CrackingPerformanceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long CrackingTimeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsCrackedField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ClientID {
+            get {
+                return this.ClientIDField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ClientIDField, value) != true)) {
+                    this.ClientIDField = value;
+                    this.RaisePropertyChanged("ClientID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CrackedPassword {
+            get {
+                return this.CrackedPasswordField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CrackedPasswordField, value) != true)) {
+                    this.CrackedPasswordField = value;
+                    this.RaisePropertyChanged("CrackedPassword");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long CrackingPerformance {
+            get {
+                return this.CrackingPerformanceField;
+            }
+            set {
+                if ((this.CrackingPerformanceField.Equals(value) != true)) {
+                    this.CrackingPerformanceField = value;
+                    this.RaisePropertyChanged("CrackingPerformance");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long CrackingTime {
+            get {
+                return this.CrackingTimeField;
+            }
+            set {
+                if ((this.CrackingTimeField.Equals(value) != true)) {
+                    this.CrackingTimeField = value;
+                    this.RaisePropertyChanged("CrackingTime");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsCracked {
+            get {
+                return this.IsCrackedField;
+            }
+            set {
+                if ((this.IsCrackedField.Equals(value) != true)) {
+                    this.IsCrackedField = value;
+                    this.RaisePropertyChanged("IsCracked");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="CrackerServiceReference.ICrackerService", CallbackContract=typeof(CrackerClient.CrackerServiceReference.ICrackerServiceCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface ICrackerService {
@@ -69,10 +178,10 @@ namespace CrackerClient.CrackerServiceReference {
         System.Threading.Tasks.Task<CrackerClient.CrackerServiceReference.DictionaryData> SendDictionaryAsync();
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AnnounceResult")]
-        void AnnounceResult(string message);
+        void AnnounceResult(CrackerClient.CrackerServiceReference.ResultData result);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AnnounceResult")]
-        System.Threading.Tasks.Task AnnounceResultAsync(string message);
+        System.Threading.Tasks.Task AnnounceResultAsync(CrackerClient.CrackerServiceReference.ResultData result);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AddClient")]
         void AddClient();
@@ -130,12 +239,12 @@ namespace CrackerClient.CrackerServiceReference {
             return base.Channel.SendDictionaryAsync();
         }
         
-        public void AnnounceResult(string message) {
-            base.Channel.AnnounceResult(message);
+        public void AnnounceResult(CrackerClient.CrackerServiceReference.ResultData result) {
+            base.Channel.AnnounceResult(result);
         }
         
-        public System.Threading.Tasks.Task AnnounceResultAsync(string message) {
-            return base.Channel.AnnounceResultAsync(message);
+        public System.Threading.Tasks.Task AnnounceResultAsync(CrackerClient.CrackerServiceReference.ResultData result) {
+            return base.Channel.AnnounceResultAsync(result);
         }
         
         public void AddClient() {

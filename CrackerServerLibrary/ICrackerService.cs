@@ -12,6 +12,26 @@ namespace CrackerServerLibrary
         public List<string> List { get; set; }
     }
 
+    [DataContract]
+    public class ResultData
+    {
+        [DataMember]
+        public string ClientID { get; set; }
+
+        [DataMember]
+        public bool IsCracked { get; set; }
+
+        [DataMember]
+        public string CrackedPassword { get; set; }
+
+        [DataMember]
+        public long CrackingTime { get; set; }
+
+        [DataMember]
+        public long CrackingPerformance { get; set; }
+
+    }
+
     [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(ICrackerServiceCallback))]
     public interface ICrackerService
     {
@@ -19,7 +39,7 @@ namespace CrackerServerLibrary
         DictionaryData SendDictionary();
 
         [OperationContract(IsOneWay = true)]
-        void AnnounceResult(string message);
+        void AnnounceResult(ResultData result);
 
         [OperationContract(IsOneWay = true)]
         void AddClient();
