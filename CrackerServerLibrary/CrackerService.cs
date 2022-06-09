@@ -21,6 +21,25 @@ namespace CrackerServerLibrary
                                "Result: " + (result.IsCracked ? "Cracked password: " + result.CrackedPassword : "Password not found in given range") + "\n" +
                                "Elapsed time: " + result.CrackingTime + " ms" + "\n" +
                                "Average cracking speed: " + result.CrackingPerformance + " kH/s");
+            LogResultToFile(result);
+        }
+
+        private void LogResultToFile(ResultData result)
+        {
+            string path = "results.csv";
+            if (!File.Exists(path))
+            {
+                using (StreamWriter streamWriter = File.CreateText(path))
+                {
+                    streamWriter.WriteLine("ClientID;IsCracked;CrackedPassword;CrackingTime(ms);CrackingPerformance(kH/s)");
+                }
+            }
+
+            using (StreamWriter streamWriter = File.AppendText(path))
+            {
+                ClientMessages.Add(((FileStream)streamWriter.BaseStream).Name); //temp
+                streamWriter.WriteLine(result.ClientID + ";" + result.IsCracked + ";" + result.CrackedPassword + ";" + result.CrackingTime + ";" + result.CrackingPerformance);
+            }
         }
 
         public void StartCrackingBrute(string md5Password, int packageSize)
@@ -34,7 +53,7 @@ namespace CrackerServerLibrary
             }
         }
 
-        public void StartCrackingDictionary(string md5Password, int packageSize, bool checkUpperCase, bool checkSuffix, String suffix)
+        public void StartCrackingDictionary(string md5Password, int packageSize, bool checkUpperCase, bool checkSuffix, string suffix)
         {
             int position = 0;
             foreach (ICrackerServiceCallback callback in Callbacks)

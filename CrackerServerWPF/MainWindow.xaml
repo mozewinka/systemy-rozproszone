@@ -34,6 +34,6 @@
         <TextBox x:Name="packageSizeTextBox" HorizontalAlignment="Left" Height="20" Margin="94,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166"/>
         <CheckBox x:Name="checkUpperCase" Content="Check first letter upper case" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"/>
         <CheckBox x:Name="checkSuffix" Content="Add sufix" HorizontalAlignment="Left" Margin="20,252,0,0" VerticalAlignment="Top" Checked="SuffixRadioChecked" Unchecked="SuffixRadioUnchecked"/>
-        <TextBox x:Name="sufix" HorizontalAlignment="Left" Height="23" Margin="100,248,0,0" VerticalAlignment="Top" Width="121"/>
+        <TextBox x:Name="suffix" HorizontalAlignment="Left" Height="23" Margin="100,248,0,0" VerticalAlignment="Top" Width="121"/>
     </Grid>
 </Window>

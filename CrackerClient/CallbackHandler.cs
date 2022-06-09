@@ -103,9 +103,9 @@ namespace CrackerClient
             {
                 counter++;
                 string currentHash = "";
+                string password = "";
                 foreach (string option in options)
                 {
-                    string password;
                     if (option.Equals("normal"))
                     {
                         password = DictionaryList[currentPosition];
@@ -134,7 +134,7 @@ namespace CrackerClient
                 if (currentHash.Equals(md5Password))
                 {
                     result.IsCracked = true;
-                    result.CrackedPassword = currentPosition.ToString();
+                    result.CrackedPassword = password; ;
                     break;
                 }
                 else
@@ -145,6 +145,10 @@ namespace CrackerClient
 
             stopwatch.Stop();
             result.CrackingTime = stopwatch.ElapsedMilliseconds;
+            if (result.CrackingTime == 0)
+            {
+                result.CrackingTime = 1; // łapie zero przy początkowych wyrazach słownika
+            }
             result.CrackingPerformance = counter / result.CrackingTime;
             CrackTools.PrintResult(result);
             Client.AnnounceResult(result);

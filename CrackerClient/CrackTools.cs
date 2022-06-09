@@ -94,7 +94,7 @@ namespace CrackerClient
                 }
             }
 
-            return cpuID;
+            return cpuID.ToLower();
         }
     }
 }

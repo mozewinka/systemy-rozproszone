@@ -34,8 +34,8 @@ namespace CrackerServerWPF
             fileButton.IsEnabled = false;
             checkUpperCase.Visibility = Visibility.Hidden;
             checkSuffix.Visibility = Visibility.Hidden;
-            sufix.Visibility = Visibility.Hidden;
-            sufix.IsEnabled = false;
+            suffix.Visibility = Visibility.Hidden;
+            suffix.IsEnabled = false;
             instance = new CrackerService();
 
             Logs = new ObservableCollection<string>();
@@ -138,17 +138,17 @@ namespace CrackerServerWPF
             fileButton.IsEnabled = false;
             checkUpperCase.Visibility = Visibility.Hidden;
             checkSuffix.Visibility = Visibility.Hidden;
-            sufix.Visibility = Visibility.Hidden;
+            suffix.Visibility = Visibility.Hidden;
         }
 
         private void SuffixRadioChecked(object sender, RoutedEventArgs e)
         {
-            sufix.IsEnabled = true;
+            suffix.IsEnabled = true;
         }
 
         private void SuffixRadioUnchecked(object sender, RoutedEventArgs e)
         {
-            sufix.IsEnabled = false;
+            suffix.IsEnabled = false;
         }
         
         private void DictionaryRadioChecked(object sender, RoutedEventArgs e)
@@ -161,7 +161,7 @@ namespace CrackerServerWPF
             fileButton.IsEnabled = true;
             checkUpperCase.Visibility = Visibility.Visible;
             checkSuffix.Visibility = Visibility.Visible;
-            sufix.Visibility = Visibility.Visible;
+            suffix.Visibility = Visibility.Visible;
         }
 
         private static string GetHash(string input)
@@ -197,7 +197,7 @@ namespace CrackerServerWPF
             }
             else
             {
-                instance.StartCrackingDictionary(md5Password, packageSize, (bool)checkUpperCase.IsChecked, (bool)checkSuffix.IsChecked, sufix.Text);
+                instance.StartCrackingDictionary(md5Password, packageSize, (bool)checkUpperCase.IsChecked, (bool)checkSuffix.IsChecked, suffix.Text);
             }
         }
 

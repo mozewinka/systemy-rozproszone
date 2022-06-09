@@ -27,7 +27,7 @@ namespace CrackerClient
 
                 client.Close();
             }
-            catch (TimeoutException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("The host did not respond. (" + ex + ")");
                 _ = Console.ReadLine();
