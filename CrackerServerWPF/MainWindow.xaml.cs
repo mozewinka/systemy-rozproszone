@@ -60,7 +60,7 @@ namespace CrackerServerWPF
 
         private void OnCallbacksChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
-            clientsCountLabel.Text = Callbacks.Count.ToString();
+            clientsCountLabel.Content = Callbacks.Count.ToString();
             crackButton.IsEnabled = Callbacks.Count >= 1;
         }
 
@@ -86,7 +86,7 @@ namespace CrackerServerWPF
                 selfHost.Description.Behaviors.Add(smb);
 
                 selfHost.Open();
-                statusLabel.Content = "STARTED";
+                statusLabel.Text = "STARTED";
                 statusLabel.Foreground = Brushes.Green;
                 startButton.IsEnabled = false;
                 stopButton.IsEnabled = true;
@@ -100,7 +100,7 @@ namespace CrackerServerWPF
             catch (CommunicationException ce)
             {
                 selfHost.Abort();
-                statusLabel.Content = "STARTING FAILED";
+                statusLabel.Text = "STARTING FAILED";
                 statusLabel.Foreground = Brushes.Red;
                 Logs.Add("Exception: " + ce.Message);
             }
@@ -112,7 +112,7 @@ namespace CrackerServerWPF
             {
                 Callbacks.Clear();
                 selfHost.Close();
-                statusLabel.Content = "STOPPED";
+                statusLabel.Text = "STOPPED";
                 statusLabel.Foreground = Brushes.Red;
                 startButton.IsEnabled = true;
                 stopButton.IsEnabled = false;
