@@ -19,7 +19,7 @@ namespace CrackerClient
             try
             {
                 Console.WriteLine("Connecting...");
-                client.AddClient();
+                client.AddClient(CrackTools.GetCPUID());
 
                 Console.WriteLine("Client ready");
                 Console.WriteLine("Press enter to quit...");

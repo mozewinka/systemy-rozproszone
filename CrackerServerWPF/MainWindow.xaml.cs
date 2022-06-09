@@ -55,6 +55,8 @@ namespace CrackerServerWPF
             {
                 Logs.Add(element.ToString());
             }
+            cancelButton.IsEnabled = instance.IsCracking;
+            crackButton.IsEnabled = !instance.IsCracking;
         }
 
         private void OnCallbacksChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -207,6 +209,11 @@ namespace CrackerServerWPF
                 filePath.Text = fileDialog.FileName;
                 instance.FilePath = fileDialog.FileName;
             }
+        }
+
+        private void ClearLogsButtonClick(object sender, RoutedEventArgs e)
+        {
+            Logs.Clear();
         }
     }
 }

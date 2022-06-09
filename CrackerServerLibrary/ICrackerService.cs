@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
@@ -40,6 +39,7 @@ namespace CrackerServerLibrary
     {
         [OperationContract]
         DictionaryData SendDictionary();
+
         [OperationContract]
         string SendDictionaryHash();
 

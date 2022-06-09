@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="ICrackerService.cs" />
+    <Compile Include="NumericTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CrackerService.cs" />
   </ItemGroup>

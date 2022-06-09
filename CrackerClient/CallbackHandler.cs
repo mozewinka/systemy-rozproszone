@@ -37,7 +37,7 @@ namespace CrackerClient
             {
                 ClientID = ClientID,
                 IsCracked = false,
-                CrackingMethod = "Brute force"
+                CrackingMethod = "BruteForce"
             };
 
             while (currentPosition != endPosition)
@@ -69,13 +69,13 @@ namespace CrackerClient
         }
 
         public string GetDictionaryHash() {
-            if(File.Exists(Path.Combine(Environment.CurrentDirectory, "dictionary.txt")))
+            if (File.Exists(Path.Combine(Environment.CurrentDirectory, "dictionary.txt")))
             {
-                using (var md5 = MD5.Create())
+                using (MD5 md5 = MD5.Create())
                 {
-                    using (var stream = File.OpenRead("dictionary.txt"))
+                    using (FileStream stream = File.OpenRead("dictionary.txt"))
                     {
-                        var hash = md5.ComputeHash(stream);
+                        byte[] hash = md5.ComputeHash(stream);
                         return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
                     }
                 }
@@ -84,7 +84,7 @@ namespace CrackerClient
         }
 
         public void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix)
-        {  
+        {
             if (DictionaryList.Count == 0)
             {
                 string dictionaryHash = GetDictionaryHash();

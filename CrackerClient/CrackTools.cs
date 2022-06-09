@@ -75,7 +75,7 @@ namespace CrackerClient
             Console.WriteLine("Client ID: " + result.ClientID);
             Console.WriteLine("Result: " + (result.IsCracked ? "Cracked password: " + result.CrackedPassword : "Password not found in given range"));
             Console.WriteLine("Elapsed time: " + result.CrackingTime + " ms");
-            Console.WriteLine("Average cracking speed: " + result.CrackingPerformance + " kH/s");
+            Console.WriteLine("Average cracking speed: " + result.CrackingPerformance + " kH/s\n");
         }
 
         public static string GetCPUID()
