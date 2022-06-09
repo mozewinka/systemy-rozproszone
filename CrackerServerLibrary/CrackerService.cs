@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -14,27 +15,35 @@ namespace CrackerServerLibrary
     {
         public string FilePath { get; set; }
         public bool IsCracking { get; set; }
+        public bool ShouldCrack { get; set; }
 
         private int currentPosition;
         private string md5Password;
         private int packageSize;
         private bool checkUpperCase;
         private bool checkSuffix;
+        private Stopwatch stopwatch;
 
         public ConcurrentObservableCollection<Client> Clients;
         public ObservableCollection<string> ClientMessages;
 
         public void AnnounceResult(ResultData result)
         {
+            if (result.IsCracked)
+            {
+                stopwatch.Stop();
+            }
+
             IsCracking = !result.IsCracked;
 
             ClientMessages.Add("Client ID: " + result.ClientID + "\n" +
                                "Result: " + (result.IsCracked ? "Cracked password: " + result.CrackedPassword : "Password not found in given range") + "\n" +
                                "Elapsed time: " + result.CrackingTime + " ms" + "\n" +
-                               "Average cracking speed: " + result.CrackingPerformance + " kH/s");
+                               "Average cracking speed: " + result.CrackingPerformance + " kH/s" + 
+                               (result.IsCracked ? "\nTotal cracking time: " + stopwatch.ElapsedMilliseconds + " ms" : ""));
             LogResultToFile(result);
             
-            if (IsCracking)
+            if (IsCracking && ShouldCrack)
             {
                 Client client = Clients.First(e => e.ClientID == result.ClientID);
                 if (result.CrackingMethod == "Dictionary")
@@ -57,7 +66,7 @@ namespace CrackerServerLibrary
             {
                 using (StreamWriter streamWriter = File.CreateText(path))
                 {
-                    streamWriter.WriteLine("ClientID;IsCracked;CrackedPassword;CrackingTime(ms);CrackingPerformance(kH/s);Method");
+                    streamWriter.WriteLine("ClientID;IsCracked;CrackedPassword;CrackingTime(ms);CrackingPerformance(kH/s);Method;TotalTime(ms)");
                 }
             }
 
@@ -69,12 +78,15 @@ namespace CrackerServerLibrary
                                        result.CrackedPassword + ";" +
                                        result.CrackingTime + ";" +
                                        result.CrackingPerformance + ";" +
-                                       result.CrackingMethod);
+                                       result.CrackingMethod + ";" +
+                                       (result.IsCracked ? stopwatch.ElapsedMilliseconds.ToString() : ""));
             }
         }
 
         public void StartCrackingBrute(string md5Password, int packageSize)
         {
+            stopwatch = Stopwatch.StartNew();
+
             currentPosition = 0;
             this.md5Password = md5Password;
             this.packageSize = packageSize;
@@ -90,6 +102,8 @@ namespace CrackerServerLibrary
 
         public void StartCrackingDictionary(string md5Password, int packageSize, bool checkUpperCase, bool checkSuffix)
         {
+            stopwatch = Stopwatch.StartNew();
+
             currentPosition = 0;
             this.md5Password = md5Password;
             this.packageSize = packageSize;

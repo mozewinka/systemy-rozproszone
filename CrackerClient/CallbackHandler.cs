@@ -85,19 +85,16 @@ namespace CrackerClient
 
         public void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix)
         {
-            if (DictionaryList.Count == 0)
+            string dictionaryHash = GetDictionaryHash();
+            if (dictionaryHash != Client.SendDictionaryHash())
             {
-                string dictionaryHash = GetDictionaryHash();
-                if(dictionaryHash != Client.SendDictionaryHash())
-                {
-                    Console.WriteLine("Getting dictionary...");
-                    DictionaryData dictionary = Client.SendDictionary();
-                    DictionaryList = dictionary.List;
+                Console.WriteLine("Getting dictionary...");
+                DictionaryData dictionary = Client.SendDictionary();
+                DictionaryList = dictionary.List;
 
-                    Console.WriteLine("Received dictionary with " + DictionaryList.Count + " words.");
-                    File.WriteAllLines("dictionary.txt", DictionaryList);
-                    Console.WriteLine("Dictionary saved");
-                }
+                Console.WriteLine("Received dictionary with " + DictionaryList.Count + " words.");
+                File.WriteAllLines("dictionary.txt", DictionaryList);
+                Console.WriteLine("Dictionary saved\n");
             }
 
             Stopwatch stopwatch = Stopwatch.StartNew();

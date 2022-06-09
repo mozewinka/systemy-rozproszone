@@ -55,8 +55,11 @@ namespace CrackerServerWPF
             {
                 Logs.Add(element.ToString());
             }
-            cancelButton.IsEnabled = instance.IsCracking;
-            crackButton.IsEnabled = !instance.IsCracking;
+            if (instance.ShouldCrack)
+            {
+                cancelButton.IsEnabled = instance.IsCracking;
+                crackButton.IsEnabled = !instance.IsCracking;
+            }
         }
 
         private void OnCallbacksChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -91,12 +94,8 @@ namespace CrackerServerWPF
                 statusLabel.Foreground = Brushes.Green;
                 startButton.IsEnabled = false;
                 stopButton.IsEnabled = true;
-                if ((bool)bruteForceRadio.IsChecked || (bool)dictionaryRadio.IsChecked)
-                {
-                    crackButton.IsEnabled = true;
-                }
-                Logs.Add($"Service started at http://{ipTextBox.Text}:8001/CrackerService/");
 
+                Logs.Add($"Service started at http://{ipTextBox.Text}:8001/CrackerService/");
             }
             catch (CommunicationException ce)
             {
@@ -192,13 +191,14 @@ namespace CrackerServerWPF
             crackButton.IsEnabled = false;
             cancelButton.IsEnabled = true;
             instance.IsCracking = true;
+            instance.ShouldCrack = true;
         }
 
         private void CancelButtonClick(object sender, RoutedEventArgs e)
         {
             crackButton.IsEnabled = true;
             cancelButton.IsEnabled = false;
-            instance.IsCracking = false;
+            instance.ShouldCrack = false;
         }
 
         private void FileButtonClick(object sender, RoutedEventArgs e)
