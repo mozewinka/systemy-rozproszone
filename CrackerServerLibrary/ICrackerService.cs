@@ -40,6 +40,8 @@ namespace CrackerServerLibrary
     {
         [OperationContract]
         DictionaryData SendDictionary();
+        [OperationContract]
+        string SendDictionaryHash();
 
         [OperationContract(IsOneWay = true)]
         void AnnounceResult(ResultData result);
@@ -56,6 +58,6 @@ namespace CrackerServerLibrary
         void BruteCrack(string startPosition, string endPosition, string md5Password);
 
         [OperationContract(IsOneWay = true)]
-        void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix, String suffix);
+        void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix);
     }
 }

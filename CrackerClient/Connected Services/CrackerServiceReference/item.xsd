@@ -13,6 +13,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="SendDictionaryHash">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendDictionaryHashResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SendDictionaryHashResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="AnnounceResult">
     <xs:complexType>
       <xs:sequence>
@@ -49,7 +61,6 @@
         <xs:element minOccurs="0" name="md5Password" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="checkUpperCase" type="xs:boolean" />
         <xs:element minOccurs="0" name="checkSuffix" type="xs:boolean" />
-        <xs:element minOccurs="0" name="suffix" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Diagnostics;
+using System.Linq;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace CrackerClient
 {
@@ -61,15 +64,36 @@ namespace CrackerClient
             Client.AnnounceResult(result);
         }
 
-        public void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix, string suffix)
-        {
+        public string GetDictionaryHash() {
+            if(File.Exists(Path.Combine(Environment.CurrentDirectory, "dictionary.txt")))
+            {
+                using (var md5 = MD5.Create())
+                {
+                    using (var stream = File.OpenRead("dictionary.txt"))
+                    {
+                        var hash = md5.ComputeHash(stream);
+                        return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix)
+        {  
             if (DictionaryList.Count == 0)
             {
-                Console.WriteLine("Getting dictionary...");
-                DictionaryData dictionary = Client.SendDictionary();
-                DictionaryList = dictionary.List;
+                string dictionaryHash = GetDictionaryHash();
+                if(dictionaryHash != Client.SendDictionaryHash())
+                {
+                    Console.WriteLine("Getting dictionary...");
+                    DictionaryData dictionary = Client.SendDictionary();
+                    DictionaryList = dictionary.List;
 
-                Console.WriteLine("Received dictionary with " + DictionaryList.Count + " words.");
+                    Console.WriteLine("Received dictionary with " + DictionaryList.Count + " words.");
+                    File.WriteAllLines("dictionary.txt", DictionaryList);
+                    Console.WriteLine("Dictionary saved");
+                }
             }
 
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -79,6 +103,7 @@ namespace CrackerClient
             {
                 "normal"
             };
+            List<string> suffixes = Enumerable.Range(0, 10).Select(n => n.ToString()).ToList();
             if (checkUpperCase)
             {
                 options.Add("checkUpper");
@@ -120,13 +145,19 @@ namespace CrackerClient
                     }
                     else if (option.Equals("checkSuffix"))
                     {
-                        password = DictionaryList[currentPosition] + suffix;
-                        currentHash = CrackTools.GetHash(password);
+                        foreach(string suffix in suffixes)
+                        {
+                            password = DictionaryList[currentPosition] + suffix;
+                            currentHash = CrackTools.GetHash(password);
+                        }
                     }
                     else if (option.Equals("checkUpperAndSuffix"))
                     {
-                        password = char.ToUpper(DictionaryList[currentPosition][0]) + DictionaryList[currentPosition].Substring(1) + suffix;
-                        currentHash = CrackTools.GetHash(password);
+                        foreach (string suffix in suffixes)
+                        {
+                            password = char.ToUpper(DictionaryList[currentPosition][0]) + DictionaryList[currentPosition].Substring(1) + suffix;
+                            currentHash = CrackTools.GetHash(password);
+                        }
                     }
                     if (currentHash.Equals(md5Password))
                     {

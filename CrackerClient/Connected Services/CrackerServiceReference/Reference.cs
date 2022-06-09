@@ -193,6 +193,12 @@ namespace CrackerClient.CrackerServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICrackerService/SendDictionary", ReplyAction="http://tempuri.org/ICrackerService/SendDictionaryResponse")]
         System.Threading.Tasks.Task<CrackerClient.CrackerServiceReference.DictionaryData> SendDictionaryAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICrackerService/SendDictionaryHash", ReplyAction="http://tempuri.org/ICrackerService/SendDictionaryHashResponse")]
+        string SendDictionaryHash();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICrackerService/SendDictionaryHash", ReplyAction="http://tempuri.org/ICrackerService/SendDictionaryHashResponse")]
+        System.Threading.Tasks.Task<string> SendDictionaryHashAsync();
+        
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/AnnounceResult")]
         void AnnounceResult(CrackerClient.CrackerServiceReference.ResultData result);
         
@@ -216,7 +222,7 @@ namespace CrackerClient.CrackerServiceReference {
         void BruteCrack(string startPosition, string endPosition, string md5Password);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICrackerService/DictionaryCrack")]
-        void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix, string suffix);
+        void DictionaryCrack(int startPosition, int endPosition, string md5Password, bool checkUpperCase, bool checkSuffix);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -253,6 +259,14 @@ namespace CrackerClient.CrackerServiceReference {
         
         public System.Threading.Tasks.Task<CrackerClient.CrackerServiceReference.DictionaryData> SendDictionaryAsync() {
             return base.Channel.SendDictionaryAsync();
+        }
+        
+        public string SendDictionaryHash() {
+            return base.Channel.SendDictionaryHash();
+        }
+        
+        public System.Threading.Tasks.Task<string> SendDictionaryHashAsync() {
+            return base.Channel.SendDictionaryHashAsync();
         }
         
         public void AnnounceResult(CrackerClient.CrackerServiceReference.ResultData result) {
