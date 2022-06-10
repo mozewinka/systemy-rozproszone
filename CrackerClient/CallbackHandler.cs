@@ -96,6 +96,19 @@ namespace CrackerClient
                 File.WriteAllLines("dictionary.txt", DictionaryList);
                 Console.WriteLine("Dictionary saved\n");
             }
+            else
+            {
+                FileStream file = File.OpenRead("dictionary.txt");
+                StreamReader reader = new StreamReader(file);
+                List<string> list = new List<string>();
+
+                while (!reader.EndOfStream)
+                {
+                    list.Add(reader.ReadLine());
+                }
+                DictionaryList = list;
+
+            }
 
             Stopwatch stopwatch = Stopwatch.StartNew();
             int counter = 0;
@@ -129,7 +142,9 @@ namespace CrackerClient
 
             while (currentPosition != endPosition)
             {
+                Console.WriteLine(DictionaryList.Count);
                 counter++;
+                Console.WriteLine(counter.ToString());
                 string currentHash = "";
                 string password = "";
                 foreach (string option in options)
