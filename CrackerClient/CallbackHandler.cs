@@ -142,8 +142,6 @@ namespace CrackerClient
 
             while (currentPosition != endPosition)
             {
-                Console.WriteLine(DictionaryList.Count);
-                Console.WriteLine(counter.ToString());
                 string currentHash = "";
                 string password = "";
                 foreach (string option in options)
