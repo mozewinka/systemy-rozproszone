@@ -143,7 +143,6 @@ namespace CrackerClient
             while (currentPosition != endPosition)
             {
                 Console.WriteLine(DictionaryList.Count);
-                counter++;
                 Console.WriteLine(counter.ToString());
                 string currentHash = "";
                 string password = "";
@@ -153,16 +152,19 @@ namespace CrackerClient
                     {
                         password = DictionaryList[currentPosition];
                         currentHash = CrackTools.GetHash(password);
+                        counter++;
                     }
                     else if (option.Equals("checkUpper"))
                     {
                         password = char.ToUpper(DictionaryList[currentPosition][0]) + DictionaryList[currentPosition].Substring(1);
                         currentHash = CrackTools.GetHash(password);
+                        counter++;
                     }
                     else if (option.Equals("checkSuffix"))
                     {
                         foreach(string suffix in suffixes)
                         {
+                            counter++;
                             password = DictionaryList[currentPosition] + suffix;
                             currentHash = CrackTools.GetHash(password);
                         }
@@ -171,6 +173,7 @@ namespace CrackerClient
                     {
                         foreach (string suffix in suffixes)
                         {
+                            counter++;
                             password = char.ToUpper(DictionaryList[currentPosition][0]) + DictionaryList[currentPosition].Substring(1) + suffix;
                             currentHash = CrackTools.GetHash(password);
                         }
